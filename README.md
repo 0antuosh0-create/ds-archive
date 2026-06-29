@@ -1,5 +1,7 @@
 # Dark Souls — Chronicles of Lordran
 
+[فارسی](README.fa.md)
+
 A comprehensive, interactive guide to Dark Souls 1 featuring characters, bosses, locations, items, and more. Built with vanilla HTML, CSS, and JavaScript.
 
 ## Screenshots
@@ -8,9 +10,9 @@ A comprehensive, interactive guide to Dark Souls 1 featuring characters, bosses,
 |------|------------|--------|
 | ![Home](screenshots/home.png) | ![Characters](screenshots/characters.png) | ![Bosses](screenshots/bosses.png) |
 
-| Map | Build Calculator | Dark Mode |
-|-----|------------------|-----------|
-| ![Map](screenshots/map.png) | ![Build Calculator](screenshots/build-calculator.png) | ![Dark Mode](screenshots/dark-mode.png) |
+| Map | Build Calculator |
+|-----|------------------|
+| ![Map](screenshots/map.png) | ![Build Calculator](screenshots/build-calculator.png) |
 
 ## Features
 
@@ -105,8 +107,7 @@ ds-archive/
 │   ├── characters.png
 │   ├── bosses.png
 │   ├── map.png
-│   ├── build-calculator.png
-│   └── dark-mode.png
+│   └── build-calculator.png
 └── .github/workflows/
     └── deploy.yml              # GitHub Pages deployment
 ```
