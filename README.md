@@ -2,6 +2,16 @@
 
 A comprehensive, interactive guide to Dark Souls 1 featuring characters, bosses, locations, items, and more. Built with vanilla HTML, CSS, and JavaScript.
 
+## Screenshots
+
+| Home | Characters | Bosses |
+|------|------------|--------|
+| ![Home](screenshots/home.png) | ![Characters](screenshots/characters.png) | ![Bosses](screenshots/bosses.png) |
+
+| Map | Build Calculator | Dark Mode |
+|-----|------------------|-----------|
+| ![Map](screenshots/map.png) | ![Build Calculator](screenshots/build-calculator.png) | ![Dark Mode](screenshots/dark-mode.png) |
+
 ## Features
 
 ### Content Sections
@@ -84,12 +94,21 @@ A comprehensive, interactive guide to Dark Souls 1 featuring characters, bosses,
 
 ```
 ds-archive/
-├── index.html      # Main HTML file
-├── script.js       # JavaScript functionality
-├── styles.css      # All styles
-├── dark-souls.html # Original single-file version
-├── sw.js           # Service worker for offline
-└── README.md       # This file
+├── index.html                  # Main HTML file
+├── script.js                   # JavaScript functionality
+├── styles.css                  # All styles
+├── dark-souls.html             # Original single-file version
+├── sw.js                       # Service worker for offline
+├── README.md                   # This file
+├── screenshots/                # Project screenshots
+│   ├── home.png
+│   ├── characters.png
+│   ├── bosses.png
+│   ├── map.png
+│   ├── build-calculator.png
+│   └── dark-mode.png
+└── .github/workflows/
+    └── deploy.yml              # GitHub Pages deployment
 ```
 
 ## Browser Support
