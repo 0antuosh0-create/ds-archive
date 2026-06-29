@@ -1,0 +1,2648 @@
+    /* --------------------------------------------------
+       CSS CUSTOM PROPERTIES & CORE ARCHITECTURE
+       -------------------------------------------------- */
+    :root {
+      --bg-dark: #050302;
+      --bg-alt: #0a0806;
+      --bg-card: #0e0b09;
+      --bg-card-hover: #15110e;
+      --text-primary: #c4b5a5;
+      --text-secondary: #8a7a6a;
+      --gold: #d4af37;
+      --gold-dim: #8c732b;
+      --gold-glow: rgba(212, 175, 55, 0.15);
+      --fire-1: #ff6633;
+      --fire-2: #ff8833;
+      --fire-3: #ffaa44;
+      --fire-glow: rgba(255, 102, 51, 0.2);
+      --font-title: 'Cinzel Decorative', cursive;
+      --font-ui: 'Cinzel', serif;
+      --font-body: 'IM Fell English', serif;
+      --shadow-deep: 0 15px 35px rgba(0, 0, 0, 0.95);
+      --transition-gothic: cubic-bezier(0.25, 0.8, 0.25, 1);
+      --transition-fast: 0.25s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* Weathered Stone Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f1a16;
+      border: 2px solid var(--bg-dark);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-dim);
+    }
+
+    /* Ambient Film-Grain Noise Layer */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* Subtle vignette overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 9998;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.3) 100%);
+    }
+
+    body {
+      overflow-x: hidden;
+      background-color: var(--bg-dark);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Headings Style */
+    h1, h2, h3, h4 {
+      font-family: var(--font-title);
+      color: var(--gold);
+      text-shadow: 0 0 12px var(--gold-glow);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    p {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    /* UI Subtitles */
+    .section-subtitle {
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-top: 0.5rem;
+    }
+
+    /* Ornate Divider */
+    .ornate-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2rem auto;
+      width: 100%;
+      max-width: 450px;
+    }
+    .ornate-divider .line {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(212,175,55,0) 0%, var(--gold-dim) 50%, rgba(212,175,55,0) 100%);
+      flex-grow: 1;
+    }
+    .ornate-divider svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--gold);
+      margin: 0 15px;
+      filter: drop-shadow(0 0 5px var(--gold-glow));
+    }
+
+    /* Section defaults */
+    section {
+      padding: 7rem 0;
+      position: relative;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.04);
+      scroll-margin-top: 90px;
+    }
+
+    /* Intersection Observer Reveals */
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s var(--transition-gothic), transform 0.8s var(--transition-gothic);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Smooth card transitions — NO transform here (JS handles it at 60fps) */
+    .tilt-box {
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+
+    /* Staggered reveal for card grids */
+    .lore-grid .lore-card:nth-child(1) { transition-delay: 0s; }
+    .lore-grid .lore-card:nth-child(2) { transition-delay: 0.08s; }
+    .lore-grid .lore-card:nth-child(3) { transition-delay: 0.16s; }
+    .lore-grid .lore-card:nth-child(4) { transition-delay: 0.24s; }
+    .character-grid .char-card:nth-child(n) { transition-delay: calc(var(--i, 0) * 0.05s); }
+    .boss-grid .boss-card:nth-child(n) { transition-delay: calc(var(--i, 0) * 0.05s); }
+    .covenant-grid .covenant-card:nth-child(n) { transition-delay: calc(var(--i, 0) * 0.05s); }
+    .item-grid .item-card:nth-child(n) { transition-delay: calc(var(--i, 0) * 0.05s); }
+    .gift-grid .gift-slot:nth-child(n) { transition-delay: calc(var(--i, 0) * 0.05s); }
+
+    /* Section heading entrance */
+    .reveal h2 {
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
+    }
+    .reveal.active h2 {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Bonfire breathing */
+    @keyframes bonfire-breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.015); }
+    }
+
+    /* Nav link hover polish */
+    nav a::after {
+      transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Hero entrance staggered animation */
+    .hero-content > * {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: heroFadeIn 0.7s ease forwards;
+    }
+    .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+    .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+    .hero-content > *:nth-child(3) { animation-delay: 0.35s; }
+    .hero-content > *:nth-child(4) { animation-delay: 0.5s; }
+    .hero-content > *:nth-child(5) { animation-delay: 0.65s; }
+    @keyframes heroFadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .bonfire-container {
+      opacity: 0;
+      animation: bonfire-breathe 4s ease-in-out infinite, heroFadeIn 1s ease 0.4s forwards;
+    }
+
+    /* Scroll-to-top button */
+    #scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      background: rgba(10,8,6,0.9);
+      border: 1px solid rgba(212,175,55,0.2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9990;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease;
+      pointer-events: none;
+    }
+    #scroll-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    #scroll-top:hover {
+      border-color: var(--gold);
+    }
+    #scroll-top svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Section parallax backgrounds */
+    #lore, #locations, #covenants, #guide {
+      background-attachment: fixed;
+    }
+
+    /* Card filter fade transition */
+    .character-grid, .boss-grid {
+      transition: opacity 0.3s ease;
+    }
+    .character-grid.fading, .boss-grid.fading {
+      opacity: 0;
+    }
+
+    /* --------------------------------------------------
+       SECTION 1: GLASSMORPHIC HEADER
+       -------------------------------------------------- */
+    header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 85px;
+      background: rgba(5, 3, 2, 0.88);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    header.scrolled {
+      height: 64px;
+      background: rgba(5, 3, 2, 0.98);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+      border-bottom-color: rgba(212, 175, 55, 0.25);
+    }
+    header.scrolled .logo svg {
+      width: 32px;
+      height: 32px;
+    }
+    header.scrolled .logo-main {
+      font-size: 1.1rem;
+      letter-spacing: 1.5px;
+    }
+    header.scrolled .logo-sub {
+      font-size: 0.55rem;
+    }
+    header.scrolled nav {
+      gap: 1.2rem;
+    }
+    header.scrolled nav a {
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      gap: 14px;
+      transition: transform 0.3s ease;
+    }
+    .logo:hover {
+      transform: scale(1.02);
+    }
+    .logo svg {
+      width: 38px;
+      height: 38px;
+      filter: drop-shadow(0 0 6px rgba(255, 69, 0, 0.3));
+      transition: filter 0.3s ease;
+    }
+    .logo:hover svg {
+      filter: drop-shadow(0 0 12px rgba(255, 69, 0, 0.6));
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .logo-main {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      color: var(--gold);
+      line-height: 1.1;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    }
+    .logo-sub {
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    nav {
+      display: flex;
+      gap: 1.6rem;
+      align-items: center;
+    }
+    nav a {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: color 0.3s ease;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    nav a:hover {
+      color: var(--gold);
+      text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+    nav a.active {
+      color: var(--gold);
+      text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+    }
+    nav a.active::after {
+      width: 100%;
+      background: var(--gold);
+    }
+
+    /* Mobile Hamburger Trigger */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: var(--gold);
+      transition: var(--transition-fast);
+    }
+
+    /* --------------------------------------------------
+       SECTION 2: HERO SECTION
+       -------------------------------------------------- */
+    #home {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      padding: 0;
+      background: linear-gradient(180deg, rgba(5, 3, 2, 0.2) 0%, rgba(5, 3, 2, 0.6) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      max-width: 650px;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .parallax-box {
+      transition: transform 0.15s ease-out;
+    }
+    .hero-subtitle {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      letter-spacing: 5px;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    .hero-title {
+      font-size: 3.8rem;
+      text-align: left;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    /* Animated Typewriter Box */
+    .typewriter-box {
+      font-family: var(--font-body);
+      font-size: 1.35rem;
+      font-style: italic;
+      height: 45px;
+      margin-bottom: 2rem;
+      color: var(--text-primary);
+    }
+    .typewriter-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1rem;
+      background-color: var(--gold);
+      margin-left: 4px;
+      animation: blink 0.9s steps(2, start) infinite;
+    }
+    @keyframes blink {
+      to { visibility: hidden; }
+    }
+    /* Ember Button CTA */
+    .cta-button {
+      display: inline-block;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.9rem 1.8rem;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-fast);
+      box-shadow: 0 0 15px rgba(212,175,55,0.04);
+    }
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(212,175,55,0.08), transparent);
+      transition: 0.6s ease;
+    }
+    .cta-button:hover {
+      background: var(--gold);
+      color: var(--bg-dark);
+      box-shadow: 0 0 25px var(--gold-glow);
+    }
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    /* Swirling Fog Generator */
+    .fog-wrapper {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .fog-layer {
+      position: absolute;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(15,12,10,0.2) 0%, rgba(5,3,2,0) 70%);
+      opacity: 0.35;
+      animation: drift 48s linear infinite;
+    }
+    .fog-layer-2 {
+      position: absolute;
+      width: 230%; height: 230%;
+      background: radial-gradient(circle, rgba(20,17,14,0.22) 0%, rgba(5,3,2,0) 65%);
+      opacity: 0.28;
+      animation: drift 70s linear infinite reverse;
+      animation-delay: -10s;
+    }
+    @keyframes drift {
+      0% { transform: translate(-25%, -25%) rotate(0deg); }
+      50% { transform: translate(0%, 0%) rotate(180deg); }
+      100% { transform: translate(-25%, -25%) rotate(360deg); }
+    }
+
+    /* --------------------------------------------------
+       BONFIRE METICULOUS VISUAL
+       -------------------------------------------------- */
+    .bonfire-container {
+      position: absolute;
+      bottom: -15px;
+      right: 4%;
+      width: 440px;
+      height: 520px;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .bonfire-svg {
+      width: 100%;
+      height: 100%;
+    }
+    /* Dynamic floating particles */
+    .ember-particle {
+      position: absolute;
+      background: radial-gradient(circle, var(--fire-3) 20%, var(--fire-1) 80%);
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(0.4px);
+      box-shadow: 0 0 10px var(--fire-1);
+    }
+    @keyframes riseAndFade {
+      0% {
+        transform: translateY(0) scale(1) translateX(0);
+        opacity: 0.95;
+      }
+      50% {
+        transform: translateY(-110px) scale(1.3) translateX(var(--drift));
+      }
+      100% {
+        transform: translateY(-260px) scale(0) translateX(var(--drift-end));
+        opacity: 0;
+      }
+    }
+    /* Flickering properties */
+    @keyframes bonfire-flicker {
+      0%, 100% { filter: drop-shadow(0 0 35px rgba(255, 102, 51, 0.4)); }
+      50% { filter: drop-shadow(0 0 52px rgba(255, 102, 51, 0.62)); }
+    }
+    @keyframes flame-sway-1 {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(2.5deg) scale(1.06) skewX(1deg); }
+    }
+    @keyframes flame-sway-2 {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(-3deg) scale(0.94) skewX(-1.5deg); }
+    }
+    .flame-glow {
+      animation: bonfire-flicker 3.8s ease-in-out infinite;
+    }
+    .flame-layer-1 {
+      transform-origin: 200px 420px;
+      animation: flame-sway-1 3.2s ease-in-out infinite;
+    }
+    .flame-layer-2 {
+      transform-origin: 200px 420px;
+      animation: flame-sway-2 4.2s ease-in-out infinite;
+    }
+
+    /* --------------------------------------------------
+       SECTION 3: THE LORE CARDS
+       -------------------------------------------------- */
+    #lore {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-alt) 100%);
+    }
+    .lore-intro {
+      max-width: 850px;
+      margin: 0 auto 4rem auto;
+      text-align: center;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      font-style: italic;
+      line-height: 1.7;
+    }
+    .lore-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      position: relative;
+    }
+
+    /* Timeline connector between lore cards */
+    @media (min-width: 769px) {
+      .lore-grid::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        right: 10%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+        opacity: 0.2;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .lore-card {
+        z-index: 1;
+      }
+    }
+    .lore-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.08);
+      padding: 2.2rem 1.8rem;
+      text-align: center;
+      transition: var(--transition-gothic);
+      position: relative;
+    }
+    .lore-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border: 1px solid transparent;
+      transition: var(--transition-gothic);
+      pointer-events: none;
+    }
+    .lore-card:hover {
+      background: var(--bg-card-hover);
+      box-shadow: var(--shadow-deep), 0 0 15px var(--gold-glow);
+    }
+    .lore-card:hover::before {
+      border-color: var(--gold-dim);
+    }
+    .lore-icon {
+      width: 65px;
+      height: 65px;
+      margin: 0 auto 1.5rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lore-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+    .lore-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .lore-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------
+       SECTION 4: INTERACTIVE CHARACTERS SYSTEM
+       -------------------------------------------------- */
+    #characters {
+      background-color: var(--bg-dark);
+    }
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 3.5rem;
+    }
+    .tab-btn {
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      color: var(--text-secondary);
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      padding: 0.6rem 1.3rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .tab-btn.active, .tab-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+      text-shadow: 0 0 6px var(--gold-glow);
+    }
+    .character-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.8rem;
+      min-height: 400px;
+    }
+    .char-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 175, 55, 0.06);
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition-gothic);
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+    }
+    .char-card.hidden {
+      display: none;
+    }
+    .char-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold-dim);
+      box-shadow: var(--shadow-deep), 0 0 10px var(--gold-glow);
+    }
+    .char-role {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+    .char-name {
+      font-size: 1.3rem;
+      text-align: left;
+      color: #dfd4c6;
+      margin-bottom: 0.8rem;
+    }
+    .char-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------
+       SECTION 5: CURSED LANDS (ANCIENT SPLIT PANELS)
+       -------------------------------------------------- */
+    #locations {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-alt) 100%);
+    }
+    .lordran-map-container {
+      margin: 0 auto 2rem auto;
+      max-width: 100%;
+      overflow-x: auto;
+      border: 1px solid rgba(212,175,55,0.12);
+      background: #080604;
+      padding: 0;
+      position: relative;
+    }
+    .lordran-map-container svg {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .lordran-map-container svg text {
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .map-node {
+      cursor: pointer;
+    }
+    .map-node circle.node-dot {
+      transition: fill 0.3s ease, opacity 0.3s ease;
+    }
+    .map-node text {
+      transition: fill 0.3s ease;
+    }
+    .map-path {
+      fill: none;
+      transition: stroke 0.3s ease, stroke-width 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* Visited node state */
+    .map-node.visited .node-dot {
+      stroke: #88aa66;
+      stroke-width: 1;
+    }
+
+    .map-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+      padding: 0.8rem 1rem;
+      background: rgba(13,10,7,0.9);
+      border-top: 1px solid rgba(212,175,55,0.08);
+    }
+    .map-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .map-legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .map-legend-label {
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .map-tooltip {
+      position: absolute;
+      background: rgba(5,3,2,0.95);
+      border: 1px solid rgba(212,175,55,0.2);
+      padding: 0.7rem 1rem;
+      max-width: 220px;
+      z-index: 30;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .map-tooltip.visible {
+      opacity: 1;
+    }
+    .map-tooltip-name {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      margin-bottom: 0.3rem;
+    }
+    .map-tooltip-desc {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      white-space: pre-line;
+    }
+    .locations-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2.5rem;
+      margin-top: 3rem;
+      border: 1px solid rgba(212,175,55,0.08);
+      background: rgba(5,3,2,0.45);
+      padding: 1.2rem;
+    }
+    .location-list-pane {
+      max-height: 520px;
+      overflow-y: auto;
+      border-right: 1px solid rgba(212,175,55,0.08);
+      padding-right: 0.8rem;
+    }
+    .location-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 0.7rem 0.9rem;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: var(--transition-fast);
+      letter-spacing: 1px;
+    }
+    .location-btn.active, .location-btn:hover {
+      color: var(--gold);
+      border-left-color: var(--gold);
+      background: rgba(212, 175, 55, 0.04);
+    }
+    .location-detail-pane {
+      padding: 1rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 440px;
+      position: relative;
+    }
+    .detail-container {
+      animation: fadeIn 0.5s var(--transition-gothic) forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .detail-name {
+      font-size: 2.1rem;
+      text-align: left;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(212,175,55,0.15);
+      padding-bottom: 0.5rem;
+    }
+    .detail-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.8rem;
+    }
+    .meta-box {
+      background: rgba(0, 0, 0, 0.45);
+      padding: 1rem;
+      border: 1px solid rgba(212,175,55,0.04);
+    }
+    .meta-title {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      margin-bottom: 0.2rem;
+      text-transform: uppercase;
+    }
+    .meta-content {
+      font-size: 0.85rem;
+      color: var(--text-primary);
+    }
+
+    /* --------------------------------------------------
+       SECTION 6: LORDS OF CINDER BESTIARY
+       -------------------------------------------------- */
+    #bosses {
+      background-color: var(--bg-dark);
+    }
+    .boss-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .boss-search {
+      flex-grow: 1;
+      max-width: 380px;
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.15);
+      padding: 0.7rem 1.1rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: var(--transition-fast);
+    }
+    .boss-search:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+
+    /* Character controls */
+    .character-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .character-count {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+    }
+
+    /* Boss difficulty — Dark Souls ember dots */
+    .boss-difficulty {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 0.4rem;
+    }
+    .ember-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      transition: all 0.4s ease;
+    }
+    .ember-dot.active {
+      background: radial-gradient(circle, #ff8844 0%, #cc4400 60%, #661100 100%);
+      border-color: rgba(255, 136, 68, 0.4);
+      box-shadow: 0 0 6px rgba(255, 102, 51, 0.3), 0 0 12px rgba(255, 102, 51, 0.15);
+    }
+    .diff-text {
+      font-family: var(--font-ui);
+      font-size: 0.55rem;
+      color: var(--text-secondary);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-left: 2px;
+    }
+
+    /* DLC badge glow */
+    .boss-badge-dlc {
+      border-color: #9966cc !important;
+      color: #9966cc !important;
+      box-shadow: 0 0 8px rgba(153, 102, 204, 0.3);
+    }
+
+    /* Scroll-down indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      animation: bounce 2s ease-in-out infinite;
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
+    .scroll-indicator.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* CTA shimmer */
+    .cta-button::before {
+      animation: ctaShimmer 3s ease-in-out infinite;
+    }
+    @keyframes ctaShimmer {
+      0%, 100% { left: -100%; }
+      50% { left: 100%; }
+    }
+
+    .boss-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.8rem;
+    }
+    .boss-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 175, 55, 0.05);
+      padding: 2rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition-gothic);
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+    }
+    .boss-card.hidden {
+      display: none;
+    }
+    .boss-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold-dim);
+      box-shadow: var(--shadow-deep), 0 0 12px var(--gold-glow);
+    }
+    .boss-header {
+      border-bottom: 1px solid rgba(212,175,55,0.08);
+      padding-bottom: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .boss-name {
+      font-size: 1.4rem;
+      text-align: left;
+      line-height: 1.25;
+    }
+    .boss-badge {
+      display: inline-block;
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      padding: 1px 7px;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 0.4rem;
+      letter-spacing: 1px;
+    }
+    .boss-row {
+      margin-top: 0.7rem;
+    }
+    .boss-label {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .boss-val {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+
+    /* --------------------------------------------------
+       SECTION 7: COVENANTS GRID
+       -------------------------------------------------- */
+    #covenants {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-alt) 100%);
+    }
+    .covenant-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 1.8rem;
+    }
+    .covenant-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.06);
+      padding: 2rem 1.8rem;
+      transition: var(--transition-gothic);
+      position: relative;
+    }
+    .covenant-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold);
+      box-shadow: var(--shadow-deep), 0 0 15px var(--gold-glow);
+    }
+    .covenant-sigil {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 1rem;
+      fill: var(--gold);
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .covenant-card:hover .covenant-sigil {
+      transform: scale(1.15);
+      filter: drop-shadow(0 0 8px var(--gold-glow));
+    }
+    .covenant-card h3 {
+      text-align: left;
+      font-size: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+    .covenant-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------
+       SECTION 8: KEY ITEMS & HUMANITY
+       -------------------------------------------------- */
+    #key-items {
+      background-color: var(--bg-dark);
+    }
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .item-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.05);
+      padding: 2.2rem 1.8rem;
+      text-align: center;
+      transition: var(--transition-gothic);
+    }
+    .item-card:hover {
+      background: var(--bg-card-hover);
+      box-shadow: var(--shadow-deep), 0 0 15px var(--gold-glow);
+    }
+    .item-svg {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem auto;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .item-card:hover .item-svg {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 12px var(--gold-glow));
+    }
+    .item-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.8rem;
+    }
+    .item-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------
+       SECTION 9: STARTING GIFTS (INVENTORY PANELS)
+       -------------------------------------------------- */
+    #guide {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-alt) 100%);
+    }
+    .gift-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.8rem;
+    }
+    .gift-slot {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.08);
+      padding: 1.8rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-gothic);
+    }
+    .gift-slot:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold);
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+    .gift-icon {
+      width: 55px;
+      height: 55px;
+      margin: 0 auto 1.2rem auto;
+    }
+    .gift-title {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      color: #dfd4c6;
+      margin-bottom: 0.6rem;
+    }
+    .gift-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    /* --------------------------------------------------
+       SECTION 10: FOOTER
+       -------------------------------------------------- */
+    footer {
+      background: linear-gradient(180deg, #030202 0%, #050302 100%);
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+      padding: 4rem 0 2.5rem 0;
+      text-align: center;
+      position: relative;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      padding: 0.3rem 0;
+      transition: color 0.3s ease;
+    }
+    .footer-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+    .footer-links a:hover::after {
+      width: 100%;
+    }
+    .praise-sun {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 15px var(--gold-glow);
+      letter-spacing: 2px;
+    }
+    .copyright {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      letter-spacing: 1.5px;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.08);
+    }
+    .pulsing-star {
+      display: inline-block;
+      color: var(--gold);
+      animation: heart-pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes heart-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.35); opacity: 1; }
+    }
+
+    /* --------------------------------------------------
+       GLOBAL SEARCH OVERLAY
+       -------------------------------------------------- */
+    .search-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(5, 3, 2, 0.95);
+      z-index: 20000;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 12vh;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .search-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .search-overlay-content {
+      width: 90%;
+      max-width: 600px;
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.15);
+      padding: 1.5rem;
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+    .search-overlay.open .search-overlay-content {
+      transform: translateY(0);
+    }
+    .search-overlay-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .global-search-input {
+      width: 100%;
+      background: var(--bg-dark);
+      border: 1px solid rgba(212,175,55,0.15);
+      padding: 0.8rem 1rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .global-search-input:focus {
+      border-color: var(--gold);
+    }
+    .global-search-results {
+      max-height: 50vh;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+    .search-result-group {
+      margin-bottom: 1rem;
+    }
+    .search-result-group-title {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .search-result-item {
+      padding: 0.5rem 0.8rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      border-left: 2px solid transparent;
+    }
+    .search-result-item:hover {
+      background: rgba(212,175,55,0.05);
+      border-left-color: var(--gold);
+    }
+    .search-overlay-hint {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+    .search-overlay-hint kbd {
+      background: var(--bg-dark);
+      border: 1px solid rgba(212,175,55,0.2);
+      padding: 0.1rem 0.4rem;
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+    }
+
+    /* --------------------------------------------------
+       CHARACTER DETAIL MODAL
+       -------------------------------------------------- */
+    .character-modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(5, 3, 2, 0.9);
+      z-index: 20000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .character-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .character-modal-content {
+      width: 90%;
+      max-width: 500px;
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.15);
+      padding: 2rem;
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+    .character-modal.open .character-modal-content {
+      transform: scale(1);
+    }
+    .modal-role {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .modal-name {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .modal-desc {
+      font-size: 1rem;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* --------------------------------------------------
+       LIGHT PARCHMENT MODE
+       -------------------------------------------------- */
+    body.light-mode {
+      --bg-dark: #f5f0e8;
+      --bg-alt: #ede6d8;
+      --bg-card: #faf6ee;
+      --bg-card-hover: #f0ead8;
+      --text-primary: #2a2218;
+      --text-secondary: #6b5d4e;
+      --gold: #8b6914;
+      --gold-dim: #a07828;
+      --gold-glow: rgba(139, 105, 20, 0.15);
+      --fire-1: #cc4400;
+      --fire-2: #dd6622;
+      --fire-3: #ee8833;
+      --fire-glow: rgba(204, 68, 0, 0.15);
+      --shadow-deep: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    body.light-mode header {
+      background: rgba(245, 240, 232, 0.92);
+      border-bottom-color: rgba(139, 105, 20, 0.15);
+    }
+    body.light-mode header.scrolled {
+      background: rgba(245, 240, 232, 0.98);
+    }
+    body.light-mode body::after {
+      opacity: 0.03;
+    }
+    body.light-mode .lore-card,
+    body.light-mode .char-card,
+    body.light-mode .boss-card,
+    body.light-mode .covenant-card,
+    body.light-mode .item-card,
+    body.light-mode .gift-slot {
+      border-color: rgba(139, 105, 20, 0.12);
+    }
+    body.light-mode footer {
+      background-color: #e8e0d0;
+      border-top-color: rgba(139, 105, 20, 0.15);
+    }
+    body.light-mode .praise-sun {
+      text-shadow: 0 0 10px rgba(139, 105, 20, 0.2);
+    }
+
+    /* --------------------------------------------------
+       RESPONSIVE ADAPTABILITY
+       -------------------------------------------------- */
+    @media (max-width: 1100px) {
+      .bonfire-container {
+        width: 330px;
+        height: 420px;
+        right: 2%;
+      }
+      .hero-title {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 950px) {
+      .locations-layout {
+        grid-template-columns: 1fr;
+      }
+      .location-list-pane {
+        border-right: none;
+        border-bottom: 1px solid rgba(212,175,55,0.12);
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        max-height: none;
+        padding-bottom: 0.5rem;
+      }
+      .location-btn {
+        display: inline-block;
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        width: auto;
+      }
+      .location-btn.active {
+        border-bottom-color: var(--gold);
+      }
+      .location-detail-pane {
+        min-height: auto;
+        padding: 1.2rem 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: flex;
+        z-index: 10002;
+      }
+      nav {
+        position: fixed;
+        top: 0; right: -100%;
+        width: 75%;
+        height: 100vh;
+        background: rgba(5, 3, 2, 0.98);
+        border-left: 1px solid var(--gold-dim);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.8rem;
+        transition: var(--transition-gothic);
+        z-index: 10001;
+      }
+      nav.open {
+        right: 0;
+      }
+      header.mobile-menu-active .nav-toggle span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      header.mobile-menu-active .nav-toggle span:nth-child(2) {
+        opacity: 0;
+      }
+      header.mobile-menu-active .nav-toggle span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+
+      #home {
+        text-align: center;
+        padding-top: 80px;
+      }
+      .hero-content {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .hero-title {
+        font-size: 2.3rem;
+        text-align: center;
+      }
+      .bonfire-container {
+        position: relative;
+        width: 220px;
+        height: 280px;
+        margin: 1.5rem auto 0 auto;
+        right: auto;
+        bottom: auto;
+      }
+
+      section {
+        padding: 4.5rem 0;
+      }
+      .boss-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .boss-search {
+        max-width: 100%;
+      }
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--bg-dark);
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s ease;
+    }
+    .loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .loading-content {
+      text-align: center;
+    }
+    .loading-darksign {
+      animation: loadingPulse 2s ease-in-out infinite;
+    }
+    .loading-ring {
+      animation: loadingRotate 2s linear infinite;
+      transform-origin: center;
+    }
+    @keyframes loadingPulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.6)); }
+    }
+    @keyframes loadingRotate {
+      0% { stroke-dashoffset: 220; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .loading-text {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      color: var(--gold);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 1.5rem;
+      animation: loadingFade 1.5s ease-in-out infinite;
+    }
+    @keyframes loadingFade {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* Enhanced Progress Bar */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+      z-index: 99999;
+      width: 0;
+      transition: width 0.1s;
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+    }
+
+
+    /* Character silhouette */
+    .char-silhouette {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 0.8rem auto;
+      opacity: 0.15;
+    }
+
+    /* Keyboard focus styles */
+    .location-btn:focus-visible {
+      outline: 1px solid var(--gold);
+      outline-offset: -2px;
+    }
+    .map-node:focus-visible {
+      outline: none;
+    }
+    .map-node:focus-visible .node-dot {
+      filter: url(#glow);
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    /* Responsive map */
+    @media (max-width: 768px) {
+      .lordran-map-container svg {
+        max-height: 400px;
+      }
+      .map-legend {
+        gap: 0.5rem;
+      }
+      .map-legend-label {
+        font-size: 0.5rem;
+      }
+    }
+
+    /* --------------------------------------------------
+       AMBIENT BACKGROUND PARTICLES
+       -------------------------------------------------- */
+    .ambient-particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .ambient-particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0;
+      animation: ambientFloat linear infinite;
+      box-shadow: 0 0 4px currentColor;
+    }
+    @keyframes ambientFloat {
+      0% { opacity: 0; transform: translateY(100vh) translateX(0); }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(-10vh) translateX(50px); }
+    }
+
+    /* --------------------------------------------------
+       ENHANCED CARD HOVER EFFECTS
+       -------------------------------------------------- */
+    .lore-card:hover {
+      box-shadow: var(--shadow-deep), 0 0 20px rgba(212, 175, 55, 0.15);
+    }
+    .char-card:hover {
+      box-shadow: var(--shadow-deep), 0 0 15px rgba(192, 192, 192, 0.1);
+    }
+    .boss-card:hover {
+      box-shadow: var(--shadow-deep), 0 0 18px rgba(255, 102, 51, 0.12);
+    }
+    .item-card:hover {
+      box-shadow: var(--shadow-deep), 0 0 20px rgba(128, 204, 255, 0.12);
+    }
+    .covenant-card:hover {
+      box-shadow: var(--shadow-deep), 0 0 18px rgba(212, 175, 55, 0.15);
+    }
+    .gift-slot:hover {
+      box-shadow: var(--shadow-deep), 0 0 15px rgba(212, 175, 55, 0.12);
+    }
+    .boss-compare-btn:hover {
+      border-color: var(--gold) !important;
+      color: var(--gold) !important;
+    }
+
+    /* --------------------------------------------------
+       BOSS COMPARISON MODAL
+       -------------------------------------------------- */
+    .compare-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(5, 3, 2, 0.92);
+      z-index: 20000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .compare-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .compare-content {
+      width: 90%;
+      max-width: 700px;
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.15);
+      padding: 2rem;
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+    .compare-overlay.open .compare-content {
+      transform: scale(1);
+    }
+    .compare-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .compare-title {
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .compare-boss {
+      text-align: center;
+    }
+    .compare-boss-name {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .compare-boss-loc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.8rem;
+    }
+    .compare-boss-drops {
+      font-size: 0.75rem;
+      color: var(--text-primary);
+      font-style: italic;
+    }
+    .compare-vs {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      color: var(--fire-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .compare-select {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .compare-select select {
+      flex: 1;
+      background: var(--bg-dark);
+      border: 1px solid rgba(212,175,55,0.15);
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+    .compare-select select:focus {
+      border-color: var(--gold);
+      outline: none;
+    }
+
+    /* --------------------------------------------------
+       TIMELINE SECTION
+       -------------------------------------------------- */
+    .timeline-section {
+      position: relative;
+      padding: 4rem 0;
+    }
+    .timeline-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding-left: 40px;
+    }
+    .timeline-line {
+      position: absolute;
+      left: 15px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+    }
+    .timeline-event {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding-left: 30px;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -33px;
+      top: 5px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--bg-dark);
+      box-shadow: 0 0 8px var(--gold-glow);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .timeline-dot:hover {
+      transform: scale(1.3);
+      box-shadow: 0 0 15px var(--gold-glow);
+    }
+    .timeline-event-title {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+      cursor: pointer;
+    }
+    .timeline-event-title:hover {
+      text-decoration: underline;
+    }
+    .timeline-event-age {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--fire-1);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .timeline-event-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+    .timeline-event.expanded .timeline-event-desc {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    /* --------------------------------------------------
+       EASTER EGG: YOU DIED
+       -------------------------------------------------- */
+    .you-died-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .you-died-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .you-died-text {
+      font-family: var(--font-title);
+      font-size: 4rem;
+      color: #cc0000;
+      text-shadow: 0 0 30px rgba(204, 0, 0, 0.5);
+      animation: youDiedPulse 2s ease-in-out infinite;
+    }
+    @keyframes youDiedPulse {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    /* --------------------------------------------------
+       CARD FLIP ANIMATION
+       -------------------------------------------------- */
+    .flip-card {
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s ease;
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* --------------------------------------------------
+       PARALLAX SECTION BACKGROUNDS
+       -------------------------------------------------- */
+    #lore {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    #locations {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    #covenants {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    /* --------------------------------------------------
+       SECTION REVEAL ENHANCEMENTS
+       -------------------------------------------------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* --------------------------------------------------
+       BONFIRE CLICK EASTER EGG
+       -------------------------------------------------- */
+    .bonfire-container.clicked {
+      animation: bonfireFlare 0.8s ease-out;
+    }
+    @keyframes bonfireFlare {
+      0% { filter: brightness(1); }
+      30% { filter: brightness(2) drop-shadow(0 0 30px rgba(255, 136, 68, 0.8)); }
+      100% { filter: brightness(1); }
+    }
+
+    /* --------------------------------------------------
+       SECRET QUOTE STYLES
+       -------------------------------------------------- */
+    .secret-quote {
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 1rem;
+      font-family: var(--font-body);
+      font-style: italic;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    .secret-quote.visible {
+      opacity: 1;
+    }
+
+    /* Konami Flash Easter Egg */
+    @keyframes konamiFlash {
+      0% { filter: none; }
+      25% { filter: hue-rotate(90deg) brightness(1.3); }
+      50% { filter: hue-rotate(180deg) brightness(0.8); }
+      75% { filter: hue-rotate(270deg) brightness(1.2); }
+      100% { filter: none; }
+    }
+
+    /* Dark Flash Easter Egg */
+    @keyframes darkFlash {
+      0% { filter: none; }
+      50% { filter: brightness(0.3) saturate(0.5); }
+      100% { filter: none; }
+    }
+
+    /* Soul Glow Easter Egg */
+    @keyframes soulGlow {
+      0% { filter: none; }
+      50% { filter: brightness(1.4) hue-rotate(-10deg) drop-shadow(0 0 20px rgba(128, 204, 255, 0.5)); }
+      100% { filter: none; }
+    }
+
+    /* Bonfire Warm Easter Egg */
+    @keyframes bonfireWarm {
+      0% { filter: none; }
+      50% { filter: brightness(1.2) sepia(0.3) drop-shadow(0 0 25px rgba(255, 136, 68, 0.4)); }
+      100% { filter: none; }
+    }
+
+    /* --------------------------------------------------
+       LEGENDS OF LORDRAN
+       -------------------------------------------------- */
+    .legends-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .legend-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 175, 55, 0.08);
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .legend-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .legend-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold-dim);
+      box-shadow: var(--shadow-deep), 0 0 20px rgba(212, 175, 55, 0.1);
+      transform: translateY(-5px);
+    }
+    .legend-svg {
+      width: 180px;
+      height: 240px;
+      margin: 0 auto 1.5rem auto;
+      transition: transform 0.4s ease;
+    }
+    .legend-card:hover .legend-svg {
+      transform: scale(1.05);
+    }
+    .legend-svg svg {
+      width: 100%;
+      height: 100%;
+    }
+    .legend-glow {
+      animation: legendGlow 3s ease-in-out infinite;
+    }
+    @keyframes legendGlow {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    .legend-name {
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .legend-role {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--fire-1);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .legend-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .legend-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--gold);
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    /* --------------------------------------------------
+       DARK SOULS QUOTES
+       -------------------------------------------------- */
+    .quotes-box {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(212, 175, 55, 0.03);
+      border: 1px solid rgba(212, 175, 55, 0.08);
+      position: relative;
+    }
+    .quotes-icon {
+      margin-bottom: 1rem;
+    }
+    .rotating-quote {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 60px;
+      position: relative;
+    }
+    .rotating-quote::after {
+      content: '|';
+      color: var(--gold);
+      animation: blink 0.8s step-end infinite;
+      margin-left: 2px;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .quote-author {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      margin-top: 0.8rem;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    /* --------------------------------------------------
+       BUILD CALCULATOR
+       -------------------------------------------------- */
+    .build-calculator {
+      max-width: 700px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 175, 55, 0.08);
+      padding: 2rem;
+    }
+    .build-class-select {
+      margin-bottom: 1.5rem;
+    }
+    .build-label {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .build-select {
+      width: 100%;
+      background: var(--bg-dark);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+    }
+    .build-select:focus {
+      border-color: var(--gold);
+      outline: none;
+    }
+    .build-stat-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+    }
+    .build-stat-name {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      width: 100px;
+      letter-spacing: 1px;
+    }
+    .build-stat-bar {
+      flex: 1;
+      height: 8px;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    .build-stat-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    .build-stat-value {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--gold);
+      width: 30px;
+      text-align: right;
+    }
+    .build-stat-controls {
+      display: flex;
+      gap: 0.3rem;
+    }
+    .build-stat-btn {
+      width: 22px;
+      height: 22px;
+      background: var(--bg-dark);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .build-stat-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .build-summary {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.08);
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+    }
+    .build-summary span {
+      color: var(--gold);
+    }
+
+    /* --------------------------------------------------
+       WEAPONS SECTION
+       -------------------------------------------------- */
+    .weapon-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .weapon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .weapon-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 175, 55, 0.06);
+      padding: 1.5rem;
+      transition: var(--transition-gothic);
+    }
+    .weapon-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold-dim);
+      box-shadow: var(--shadow-deep), 0 0 12px var(--gold-glow);
+    }
+    .weapon-name {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .weapon-type {
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .weapon-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    .weapon-stat-val {
+      color: var(--gold);
+    }
+    .weapon-location {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    /* --------------------------------------------------
+       ARMOR SECTION
+       -------------------------------------------------- */
+    .armor-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .armor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .armor-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 175, 55, 0.06);
+      padding: 1.5rem;
+      transition: var(--transition-gothic);
+    }
+    .armor-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold-dim);
+      box-shadow: var(--shadow-deep), 0 0 12px var(--gold-glow);
+    }
+    .armor-name {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .armor-type {
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .armor-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    .armor-stat-val {
+      color: var(--gold);
+    }
+
+    /* --------------------------------------------------
+       EASTER EGG TRACKER
+       -------------------------------------------------- */
+    .egg-tracker {
+      position: fixed;
+      bottom: 6rem;
+      right: 2rem;
+      z-index: 9990;
+    }
+    .egg-tracker-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(10, 8, 6, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .egg-tracker-toggle:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    }
+    .egg-icon {
+      font-size: 1rem;
+    }
+    .egg-count {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .egg-tracker-panel {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      width: 200px;
+      background: rgba(10, 8, 6, 0.95);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+    .egg-tracker-panel.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .egg-panel-title {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+    .egg-panel-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.4rem;
+    }
+    .egg-panel-item.found {
+      color: var(--gold);
+    }
+    .egg-panel-item .egg-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #333;
+    }
+    .egg-panel-item.found .egg-status {
+      background: var(--gold);
+      box-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
+    }
+    .egg-tracker-toggle.new-find {
+      animation: eggGlow 0.5s ease 3;
+    }
+    @keyframes eggGlow {
+      0%, 100% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+    }
+
+    /* --------------------------------------------------
+       RESPONSIVE: Small screens (480px and below)
+       -------------------------------------------------- */
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 1rem;
+      }
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      .hero-subtitle {
+        font-size: 0.8rem;
+        letter-spacing: 3px;
+      }
+      .typewriter-box {
+        font-size: 1rem;
+        height: 35px;
+      }
+      .cta-button {
+        font-size: 0.75rem;
+        padding: 0.7rem 1.2rem;
+      }
+      section {
+        padding: 3.5rem 0;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
+      .section-subtitle {
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+      }
+      .lore-grid,
+      .character-grid,
+      .boss-grid,
+      .covenant-grid,
+      .item-grid,
+      .gift-grid {
+        grid-template-columns: 1fr;
+      }
+      .lore-card, .char-card, .boss-card, .covenant-card, .item-card, .gift-slot {
+        padding: 1.5rem;
+      }
+      .filter-tabs {
+        gap: 0.4rem;
+      }
+      .tab-btn {
+        font-size: 0.65rem;
+        padding: 0.5rem 0.8rem;
+      }
+      .char-name, .boss-name {
+        font-size: 1.1rem;
+      }
+      .detail-name {
+        font-size: 1.5rem;
+      }
+      .boss-controls {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .boss-sort {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .character-controls {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      #global-search-input {
+        font-size: 0.9rem;
+      }
+      .search-overlay-content {
+        padding: 1rem;
+      }
+      .character-modal-content {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+      .modal-name {
+        font-size: 1.4rem;
+      }
+      .footer-links {
+        gap: 1rem;
+      }
+      .footer-links a {
+        font-size: 0.7rem;
+      }
+      .praise-sun {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* --------------------------------------------------
+       ACCESSIBILITY: Focus styles
+       -------------------------------------------------- */
+    .tab-btn:focus-visible,
+    .map-zoom-btn:focus-visible,
+    #global-search-btn:focus-visible,
+    #mode-toggle:focus-visible,
+    #search-close:focus-visible,
+    #modal-close:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+    .char-card:focus-visible,
+    .boss-card:focus-visible,
+    .covenant-card:focus-visible,
+    .item-card:focus-visible,
+    .gift-slot:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+    .global-search-input:focus-visible {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+    }
+
+    /* Page load fade-in */
+    body {
+      animation: pageLoad 0.5s ease-out;
+    }
+    @keyframes pageLoad {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }

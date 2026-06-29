@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Souls — Chronicles of Lordran (Definitive Edition)</title>
+  <meta name="description" content="A comprehensive guide to Dark Souls 1 — characters, bosses, locations, items, covenants, and lore. The definitive Chronicles of Lordran.">
+  <meta name="keywords" content="Dark Souls, Lordran, guide, wiki, characters, bosses, locations, lore, covenants, items">
+  <meta name="author" content="Lordran Chronicles">
+  <meta name="theme-color" content="#050302">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Dark Souls — Chronicles of Lordran">
+  <meta property="og:description" content="A comprehensive guide to Dark Souls 1 — characters, bosses, locations, items, covenants, and lore.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Dark Souls — Chronicles of Lordran">
+  <meta name="twitter:description" content="A comprehensive guide to Dark Souls 1 — characters, bosses, locations, items, covenants, and lore.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <svg class="loading-darksign" viewBox="0 0 100 100" width="80" height="80">
+        <circle cx="50" cy="50" r="35" fill="none" stroke="#d4af37" stroke-width="3" opacity="0.6"/>
+        <circle cx="50" cy="50" r="35" fill="none" stroke="#ff6633" stroke-width="3" stroke-dasharray="220" stroke-dashoffset="220" class="loading-ring"/>
+        <path d="M50,20 C45,35 55,35 50,80" fill="none" stroke="#2a1408" stroke-width="2.5"/>
+      </svg>
+      <div class="loading-text">Loading the Archives...</div>
+    </div>
+  </div>
+
+  <!-- Scroll Progress Indicator -->
+  <div id="progress-bar"></div>
+
+
+  <!-- FIXED GLASSMORPHIC HEADER -->
+  <header id="main-header">
+    <div class="container header-container">
+      <a href="#home" class="logo">
+        <!-- Darksign inline SVG -->
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="60%" stop-color="#ff4500" stop-opacity="0.9" />
+              <stop offset="85%" stop-color="#ff8c00" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="#050302" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <circle cx="50" cy="50" r="32" fill="none" stroke="url(#ringGlow)" stroke-width="6" filter="drop-shadow(0 0 8px #ff4500)" />
+          <path d="M50,18 C45,28 55,24 50,82" fill="none" stroke="#2a1408" stroke-width="2.5" />
+        </svg>
+        <div class="logo-text">
+          <span class="logo-main">DARK SOULS</span>
+          <span class="logo-sub">⚔ CHRONICLES OF LORDRAN ⚔</span>
+        </div>
+      </a>
+      
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav id="nav-menu">
+        <a href="#home">Home</a>
+        <a href="#lore">Lore</a>
+        <a href="#characters">Characters</a>
+        <a href="#locations">Locations</a>
+        <a href="#bosses">Bosses</a>
+        <a href="#covenants">Covenants</a>
+        <a href="#guide">Guide</a>
+        <button id="global-search-btn" aria-label="Search" style="background:none;border:none;cursor:pointer;padding:0.4rem;color:var(--text-primary);transition:color 0.2s">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+        <button id="mode-toggle" aria-label="Toggle light mode" style="background:none;border:none;cursor:pointer;padding:0.4rem;color:var(--text-primary);transition:color 0.2s">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+        <button id="fullscreen-btn" aria-label="Toggle fullscreen" style="background:none;border:none;cursor:pointer;padding:0.4rem;color:var(--text-primary);transition:color 0.2s">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- IMMERSIVE HERO SECTION -->
+  <section id="home">
+    <div class="fog-wrapper">
+      <div class="fog-layer"></div>
+      <div class="fog-layer-2"></div>
+    </div>
+    
+    <div class="container" style="position: relative; z-index: 2; height: 100%; display: flex; align-items: center;">
+      <div class="hero-content parallax-box">
+        <span class="hero-subtitle">The First Flame</span>
+        <h1 class="hero-title">Embrace the Dark</h1>
+        
+        <div class="ornate-divider" style="margin: 0 0 1.5rem 0;">
+          <div class="line"></div>
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+          <div class="line"></div>
+        </div>
+
+        <div class="typewriter-box">
+          <span id="typewriter"></span><span class="typewriter-cursor"></span>
+        </div>
+        
+        <a href="#lore" class="cta-button"><svg viewBox="0 0 16 16" width="12" height="12" style="vertical-align: -1px; margin: 0 4px;"><circle cx="8" cy="8" r="3" fill="var(--fire-1)" opacity="0.9"/><circle cx="8" cy="8" r="5" fill="none" stroke="var(--gold)" stroke-width="1" opacity="0.5"/></svg> Kindle the Fire <svg viewBox="0 0 16 16" width="12" height="12" style="vertical-align: -1px; margin: 0 4px;"><circle cx="8" cy="8" r="3" fill="var(--fire-1)" opacity="0.9"/><circle cx="8" cy="8" r="5" fill="none" stroke="var(--gold)" stroke-width="1" opacity="0.5"/></svg></a>
+      </div>
+    </div>
+
+    <!-- EXQUISITE BONFIRE VISUAL -->
+    <div class="bonfire-container">
+      <svg class="bonfire-svg" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="glowBase" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ff4400" stop-opacity="0.35" />
+            <stop offset="100%" stop-color="#050302" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <circle cx="200" cy="420" r="130" fill="url(#glowBase)" class="flame-glow" />
+
+        <!-- Pile of Ash and Skeletons -->
+        <path d="M100,455 C130,425 270,425 300,455 C320,465 80,465 100,455 Z" fill="#0d0908" />
+        <path d="M140,445 C165,410 235,410 260,445 Z" fill="#251b17" />
+        <path d="M160,435 L240,435 C220,410 180,410 160,435 Z" fill="#130e0c" />
+
+        <!-- The Coiled Sword -->
+        <g id="coiled-sword" transform="rotate(-12, 200, 350)">
+          <!-- Iron blade -->
+          <path d="M197,95 L203,95 L203,420 L197,420 Z" fill="#5c4d46" />
+          <!-- Coiled fire-twisted edge details -->
+          <path d="M195,115 L205,120 L195,140 L205,145 L195,165 L205,170 L195,190 L205,195 L195,215 L205,220 L195,240 L205,245 L195,265 L205,270 L195,290 L205,295 L195,315 L205,320 L195,340 L205,345 L195,365 L205,370 L195,390 L205,395" fill="none" stroke="#1f1815" stroke-width="2.2" />
+          <!-- Melted crossguard -->
+          <path d="M182,105 C188,109 212,109 218,105 L212,100 L188,100 Z" fill="#362d29" />
+          <!-- Twisted handle -->
+          <path d="M198,65 L202,65 L202,100 L198,100 Z" fill="#211a17" />
+          <circle cx="200" cy="63" r="4.5" fill="#4d3f3a" />
+        </g>
+
+        <!-- Dynamic Multi-layered Flames -->
+        <g class="flame-glow">
+          <!-- Deep Red Back Layer -->
+          <path class="flame-layer-2" d="M150,430 C100,360 140,200 200,160 C260,200 300,360 250,430 Z" fill="#991f00" opacity="0.45" />
+          <!-- Warm Amber Middle Layer -->
+          <path class="flame-layer-1" d="M165,430 C125,375 155,240 200,200 C245,240 275,375 235,430 Z" fill="#d34e00" opacity="0.8" />
+          <!-- Bright Inner Flame -->
+          <path class="flame-layer-2" d="M180,430 C155,390 175,290 200,260 C225,290 245,390 220,430 Z" fill="#ff9400" opacity="0.9" />
+          <!-- Brilliant Core -->
+          <path class="flame-layer-1" d="M190,430 C182,410 190,340 200,320 C210,340 218,410 210,430 Z" fill="#ffe399" opacity="0.95" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- Scroll Down Indicator -->
+    <div class="scroll-indicator" id="scroll-indicator">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- THE LORE CHRONICLE -->
+  <section id="lore" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><circle cx="12" cy="12" r="9" fill="none" stroke="var(--gold)" stroke-width="1.5"/><path d="M12,5 C10,10 14,10 12,19" fill="none" stroke="var(--fire-1)" stroke-width="2"/></svg> The Age of Fire</h2>
+      <p class="section-subtitle">— from the First Flame to the Curse —</p>
+      
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <p class="lore-intro">
+        In the Age of Ancients, the world was unformed, shrouded by fog. A land of gray crags, Archtrees, and Everlasting Dragons. But then there was Fire, and with it came Disparity: Heat and cold, life and death, and of course... Light and Dark. From the Dark, They came, and found the Souls of Lords within the flame... [citation:3]
+      </p>
+
+      <div class="lore-grid">
+        <!-- Card 1 -->
+        <div class="lore-card tilt-box">
+          <div class="lore-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="1.5">
+              <circle cx="50" cy="50" r="40" stroke-opacity="0.2" />
+              <path d="M50,15 C65,35 35,55 50,85 C65,55 35,35 50,15 Z" fill="var(--gold-glow)" />
+            </svg>
+          </div>
+          <h3>The First Flame</h3>
+          <p>The primordial spark that introduced disparity to a gray, static reality. Out of its heat, the Lord Souls materialized, laying down the foundational pillars of light, death, and chaotic flame.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="lore-card tilt-box">
+          <div class="lore-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="1.5">
+              <polygon points="50,15 80,45 80,75 50,85 20,75 20,45" stroke-opacity="0.2" />
+              <path d="M35,45 Q50,20 65,45 T50,80" fill="var(--gold-glow)" />
+            </svg>
+          </div>
+          <h3>The Lords</h3>
+          <p>Gwyn, Nito, the Witch of Izalith, and the Furtive Pygmy seized the immense powers within the Fire. Betrayed by Seath, they crushed the immortal dragons to rule the world [citation:4].</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="lore-card tilt-box">
+          <div class="lore-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="1.5">
+              <circle cx="50" cy="50" r="30" stroke-dasharray="4,4" stroke-opacity="0.3"/>
+              <circle cx="50" cy="50" r="40" />
+              <path d="M50,32 A18,18 0 0,0 32,50" fill="none" stroke-width="2.5" />
+            </svg>
+          </div>
+          <h3>The Fading</h3>
+          <p>As the First Flame wanes, light recedes and the dark takes dominion. Gwyn committed the ultimate sin by sacrifice, attempting to link the fire and cursing humanity to cycles of hollowing.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="lore-card tilt-box">
+          <div class="lore-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="1.5">
+              <circle cx="50" cy="50" r="35" />
+              <circle cx="50" cy="50" r="15" fill="var(--gold-glow)" />
+              <path d="M50,20 L50,80 M20,50 L80,50" stroke-opacity="0.3" />
+            </svg>
+          </div>
+          <h3>The Chosen Undead</h3>
+          <p>An outcast brandished with the curse, prophesied to escape the Asylum. Propelled through a dying kingdom, you are left to choose whether to feed the flame or initiate the age of dark.</p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="lore-card tilt-box">
+          <div class="lore-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="1.5">
+              <circle cx="50" cy="50" r="35" stroke-dasharray="2,3" stroke-opacity="0.3"/>
+              <circle cx="50" cy="50" r="20" />
+              <path d="M50,30 C45,40 55,40 50,70" fill="var(--fire-1)" opacity="0.3"/>
+              <circle cx="50" cy="50" r="5" fill="var(--fire-1)" opacity="0.6"/>
+            </svg>
+          </div>
+          <h3>The Curse of the Undead</h3>
+          <p>The curse binds the Undead to the Darksign — a brand that refuses death but devours humanity. Those who lose their purpose hollow, becoming mindless shells. Only purpose, or the linking of the flame, can stave off the dark.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEGENDARY SOULS (CHARACTERS) -->
+  <section id="characters" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><path d="M12,3 C8,8 8,16 12,21 C16,16 16,8 12,3 Z" fill="var(--fire-2)" opacity="0.7"/><path d="M12,7 C10,11 10,15 12,19 C14,15 14,11 12,7 Z" fill="var(--fire-3)" opacity="0.9"/></svg> Legendary Souls</h2>
+      <p class="section-subtitle">— lords, knights, and outcasts —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="tab-btn active" data-filter="all">All</button>
+        <button class="tab-btn" data-filter="lords">The Lords</button>
+        <button class="tab-btn" data-filter="knights">Knights & Companions</button>
+        <button class="tab-btn" data-filter="firekeepers">Firekeepers & Covenants</button>
+        <button class="tab-btn" data-filter="merchants">Merchants & Blacksmiths</button>
+        <button class="tab-btn" data-filter="others">Additional NPCs</button>
+      </div>
+
+      <div class="character-controls">
+        <input type="text" id="character-search" class="boss-search" placeholder="Search characters by name, role, or description...">
+        <div class="character-count" id="character-count"></div>
+      </div>
+
+      <!-- Character Dynamic Grid -->
+      <div class="character-grid" id="character-container">
+        <!-- Content dynamically populated by Javascript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ICONIC CHARACTERS SECTION — Ultra Detailed -->
+  <section id="legends" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><path d="M12,3 C8,8 8,16 12,21 C16,16 16,8 12,3 Z" fill="var(--fire-2)" opacity="0.7"/><path d="M12,7 C10,11 10,15 12,19 C14,15 14,11 12,7 Z" fill="var(--fire-3)" opacity="0.9"/></svg> Legends of Lordran</h2>
+      <p class="section-subtitle">— the souls that defined an era —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <div class="legends-grid">
+
+        <!-- SOLAIRE OF ASTORA — Ultra Detailed Portrait -->
+        <div class="legend-card">
+          <div class="legend-svg">
+            <svg viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="sunAura" cx="50%" cy="20%" r="60%">
+                  <stop offset="0%" stop-color="#ffee66" stop-opacity="0.6"/>
+                  <stop offset="30%" stop-color="#ffaa22" stop-opacity="0.2"/>
+                  <stop offset="60%" stop-color="#ff6600" stop-opacity="0.05"/>
+                  <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="plateGold" x1="0" y1="0" x2="0.3" y2="1">
+                  <stop offset="0%" stop-color="#f0d860"/>
+                  <stop offset="25%" stop-color="#d4b030"/>
+                  <stop offset="50%" stop-color="#a88820"/>
+                  <stop offset="75%" stop-color="#c4a030"/>
+                  <stop offset="100%" stop-color="#886818"/>
+                </linearGradient>
+                <linearGradient id="plateSteel" x1="0" y1="0" x2="0.2" y2="1">
+                  <stop offset="0%" stop-color="#d8d0c0"/>
+                  <stop offset="30%" stop-color="#a09888"/>
+                  <stop offset="60%" stop-color="#706858"/>
+                  <stop offset="100%" stop-color="#484038"/>
+                </linearGradient>
+                <linearGradient id="clothBrown" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#8a7050"/>
+                  <stop offset="100%" stop-color="#5a4030"/>
+                </linearGradient>
+                <filter id="sunBloom">
+                  <feGaussianBlur stdDeviation="6" result="b"/>
+                  <feComposite in="SourceGraphic" in2="b" operator="over"/>
+                </filter>
+                <filter id="metalSheen">
+                  <feSpecularLighting surfaceScale="2" specularConstant="0.8" specularExponent="20">
+                    <fePointLight x="140" y="60" z="80"/>
+                  </feSpecularLighting>
+                </filter>
+              </defs>
+
+              <!-- Sun corona -->
+              <circle cx="140" cy="65" r="80" fill="url(#sunAura)"/>
+              <!-- Sun disk with glow -->
+              <circle cx="140" cy="50" r="35" fill="#ffcc00" opacity="0.08"/>
+              <circle cx="140" cy="50" r="22" fill="#ffaa00" opacity="0.06"/>
+              <circle cx="140" cy="50" r="12" fill="#ff8800" opacity="0.04"/>
+
+              <!-- Sun rays - 12 rays -->
+              <g stroke="#d4af37" stroke-width="1" opacity="0.3" stroke-linecap="round">
+                <line x1="140" y1="5" x2="140" y2="-5"/><line x1="140" y1="95" x2="140" y2="105"/>
+                <line x1="90" y1="50" x2="80" y2="50"/><line x1="190" y1="50" x2="200" y2="50"/>
+                <line x1="105" y1="15" x2="98" y2="8"/><line x1="175" y1="15" x2="182" y2="8"/>
+                <line x1="105" y1="85" x2="98" y2="92"/><line x1="175" y1="85" x2="182" y2="92"/>
+                <line x1="95" y1="30" x2="87" y2="25"/><line x1="185" y1="30" x2="193" y2="25"/>
+                <line x1="95" y1="70" x2="87" y2="75"/><line x1="185" y1="70" x2="193" y2="75"/>
+              </g>
+
+              <!-- Cape flowing behind - layered fabric -->
+              <path d="M88,160 Q60,220 72,300 Q80,320 95,310 L92,240 Q88,200 92,170 Z" fill="url(#clothBrown)" opacity="0.7"/>
+              <path d="M90,165 Q65,225 75,295 Q82,312 94,305 L92,235 Q90,200 92,170 Z" fill="#6a5030" opacity="0.4"/>
+              <path d="M192,160 Q220,220 208,300 Q200,320 185,310 L188,240 Q192,200 188,170 Z" fill="url(#clothBrown)" opacity="0.7"/>
+              <path d="M190,165 Q215,225 205,295 Q198,312 186,305 L188,235 Q190,200 188,170 Z" fill="#6a5030" opacity="0.4"/>
+              <!-- Cape folds -->
+              <path d="M72,250 Q80,240 88,250" fill="none" stroke="#4a3020" stroke-width="0.8" opacity="0.4"/>
+              <path d="M75,270 Q83,260 90,270" fill="none" stroke="#4a3020" stroke-width="0.8" opacity="0.4"/>
+              <path d="M208,250 Q200,240 192,250" fill="none" stroke="#4a3020" stroke-width="0.8" opacity="0.4"/>
+
+              <!-- Torso armor - main plate -->
+              <path d="M92,155 L88,225 L105,250 L140,240 L175,250 L192,225 L188,155 Z" fill="url(#plateSteel)" stroke="#504838" stroke-width="1.2"/>
+              <!-- Chest plate detail lines -->
+              <path d="M105,165 L140,155 L175,165" fill="none" stroke="#605848" stroke-width="0.8"/>
+              <path d="M100,180 L140,172 L180,180" fill="none" stroke="#605848" stroke-width="0.6"/>
+              <path d="M98,200 L140,192 L182,200" fill="none" stroke="#605848" stroke-width="0.6"/>
+              <!-- Chain mail texture under plate -->
+              <g stroke="#706858" stroke-width="0.4" opacity="0.3">
+                <path d="M100,168 Q105,172 110,168 Q115,172 120,168 Q125,172 130,168 Q135,172 140,168 Q145,172 150,168 Q155,172 160,168 Q165,172 170,168 Q175,172 180,168"/>
+                <path d="M100,175 Q105,179 110,175 Q115,179 120,175 Q125,179 130,175 Q135,179 140,175 Q145,179 150,175 Q155,179 160,175 Q165,179 170,175 Q175,179 180,175"/>
+                <path d="M100,182 Q105,186 110,182 Q115,186 120,182 Q125,186 130,182 Q135,186 140,182 Q145,186 150,182 Q155,186 160,182 Q165,186 170,182 Q175,186 180,182"/>
+              </g>
+              <!-- Armor battle damage -->
+              <path d="M115,170 L120,165 L125,172" fill="none" stroke="#504838" stroke-width="0.6" opacity="0.4"/>
+              <circle cx="160" cy="185" r="2" fill="none" stroke="#504838" stroke-width="0.5" opacity="0.3"/>
+              <!-- Belt with buckle -->
+              <rect x="92" y="218" width="96" height="10" rx="2" fill="#5a4a28" stroke="#8a7a48" stroke-width="0.8"/>
+              <rect x="133" y="215" width="14" height="16" rx="2" fill="#d4af37" stroke="#a88820" stroke-width="0.5"/>
+              <circle cx="140" cy="223" r="3" fill="#ffcc00" opacity="0.7"/>
+              <!-- Belt holes -->
+              <circle cx="100" cy="223" r="1" fill="#3a2a18"/><circle cx="108" cy="223" r="1" fill="#3a2a18"/>
+              <circle cx="116" cy="223" r="1" fill="#3a2a18"/><circle cx="164" cy="223" r="1" fill="#3a2a18"/>
+              <circle cx="172" cy="223" r="1" fill="#3a2a18"/><circle cx="180" cy="223" r="1" fill="#3a2a18"/>
+
+              <!-- Pauldrons - left -->
+              <path d="M72,148 Q78,135 95,140 L100,162 L80,164 Z" fill="url(#plateGold)" stroke="#8a6a18" stroke-width="1"/>
+              <path d="M76,150 Q82,140 94,144 L96,158 L82,160 Z" fill="#c4a028" opacity="0.5"/>
+              <!-- Pauldron rivets -->
+              <circle cx="78" cy="152" r="1.2" fill="#a88820"/><circle cx="88" cy="148" r="1.2" fill="#a88820"/>
+              <circle cx="96" cy="155" r="1.2" fill="#a88820"/>
+
+              <!-- Pauldrons - right -->
+              <path d="M208,148 Q202,135 185,140 L180,162 L200,164 Z" fill="url(#plateGold)" stroke="#8a6a18" stroke-width="1"/>
+              <path d="M204,150 Q198,140 186,144 L184,158 L198,160 Z" fill="#c4a028" opacity="0.5"/>
+              <circle cx="202" cy="152" r="1.2" fill="#a88820"/><circle cx="192" cy="148" r="1.2" fill="#a88820"/>
+              <circle cx="184" cy="155" r="1.2" fill="#a88820"/>
+
+              <!-- Left arm with shield -->
+              <path d="M72,162 Q60,175 58,200 L65,210 L78,195 L75,165 Z" fill="url(#plateSteel)" stroke="#504838" stroke-width="0.8"/>
+
+              <!-- Sunlight Shield - detailed -->
+              <g transform="translate(-18, 8)">
+                <ellipse cx="48" cy="185" rx="26" ry="32" fill="url(#plateGold)" stroke="#8a6a18" stroke-width="1.5"/>
+                <ellipse cx="48" cy="182" rx="20" ry="25" fill="#c4a028"/>
+                <!-- Shield boss (center) -->
+                <circle cx="48" cy="178" r="10" fill="#ddaa20" stroke="#a88820" stroke-width="1"/>
+                <!-- Sun emblem -->
+                <circle cx="48" cy="176" r="6" fill="#ffcc00" opacity="0.9" filter="url(#sunBloom)"/>
+                <circle cx="48" cy="176" r="3" fill="#ff8800"/>
+                <!-- Shield rays -->
+                <g stroke="#ffcc00" stroke-width="0.8" opacity="0.6">
+                  <line x1="48" y1="165" x2="48" y2="159"/><line x1="48" y1="187" x2="48" y2="193"/>
+                  <line x1="37" y1="176" x2="31" y2="176"/><line x1="59" y1="176" x2="65" y2="176"/>
+                  <line x1="40" y1="168" x2="36" y2="164"/><line x1="56" y1="168" x2="60" y2="164"/>
+                  <line x1="40" y1="184" x2="36" y2="188"/><line x1="56" y1="184" x2="60" y2="188"/>
+                </g>
+                <!-- Shield border rivets -->
+                <circle cx="48" cy="155" r="1.5" fill="#8a6a18"/><circle cx="48" cy="209" r="1.5" fill="#8a6a18"/>
+                <circle cx="26" cy="182" r="1.5" fill="#8a6a18"/><circle cx="70" cy="182" r="1.5" fill="#8a6a18"/>
+                <circle cx="32" cy="162" r="1" fill="#8a6a18"/><circle cx="64" cy="162" r="1" fill="#8a6a18"/>
+                <circle cx="32" cy="200" r="1" fill="#8a6a18"/><circle cx="64" cy="200" r="1" fill="#8a6a18"/>
+              </g>
+
+              <!-- Right arm -->
+              <path d="M208,162 Q220,175 222,200 L215,210 L202,195 L205,165 Z" fill="url(#plateSteel)" stroke="#504838" stroke-width="0.8"/>
+
+              <!-- Sunlight Sword - detailed blade -->
+              <g transform="rotate(-22 215 100)">
+                <!-- Blade -->
+                <rect x="213" y="45" width="5" height="105" fill="#d4af37" rx="1"/>
+                <rect x="214" y="48" width="3" height="99" fill="#e8c84a" opacity="0.6"/>
+                <!-- Blade edge highlight -->
+                <line x1="214" y1="50" x2="214" y2="148" stroke="#ffee88" stroke-width="0.5" opacity="0.4"/>
+                <!-- Blade tip -->
+                <path d="M213,45 L215.5,30 L218,45" fill="#d4af37"/>
+                <!-- Blood gutter -->
+                <line x1="215.5" y1="50" x2="215.5" y2="145" stroke="#a88820" stroke-width="0.5"/>
+                <!-- Crossguard -->
+                <rect x="206" y="148" width="19" height="6" rx="2" fill="#8a6d1a" stroke="#6a5a1a" stroke-width="0.5"/>
+                <rect x="208" y="149" width="15" height="4" fill="#a88820" opacity="0.4"/>
+                <!-- Grip wrap -->
+                <rect x="213" y="154" width="5" height="20" fill="#4a3a1a"/>
+                <line x1="213" y1="158" x2="218" y2="158" stroke="#6a5a3a" stroke-width="0.5"/>
+                <line x1="213" y1="162" x2="218" y2="162" stroke="#6a5a3a" stroke-width="0.5"/>
+                <line x1="213" y1="166" x2="218" y2="166" stroke="#6a5a3a" stroke-width="0.5"/>
+                <line x1="213" y1="170" x2="218" y2="170" stroke="#6a5a3a" stroke-width="0.5"/>
+                <!-- Pommel -->
+                <circle cx="215.5" cy="176" r="5" fill="#b8962a" stroke="#8a6d1a" stroke-width="0.5"/>
+                <circle cx="215.5" cy="176" r="2" fill="#d4af37"/>
+              </g>
+
+              <!-- Sun Helmet - ultra detailed -->
+              <ellipse cx="140" cy="115" rx="38" ry="34" fill="url(#plateGold)" stroke="#8a6a18" stroke-width="1.5"/>
+              <!-- Helmet dome highlight -->
+              <ellipse cx="138" cy="105" rx="25" ry="18" fill="#e8c84a" opacity="0.15"/>
+              <!-- Visor slit -->
+              <path d="M112,120 L168,120" stroke="#1a0a00" stroke-width="4" stroke-linecap="round"/>
+              <!-- Visor slit inner -->
+              <path d="M115,120 L165,120" stroke="#3a2a10" stroke-width="2"/>
+              <!-- Sun emblem on forehead -->
+              <circle cx="140" cy="98" r="12" fill="#ffcc00" opacity="0.6" filter="url(#sunBloom)"/>
+              <circle cx="140" cy="98" r="7" fill="#ff8800" opacity="0.8"/>
+              <circle cx="140" cy="98" r="3" fill="#ffaa00"/>
+              <!-- Helmet crest ridge -->
+              <path d="M118,88 Q140,75 162,88" fill="none" stroke="#8a6d1a" stroke-width="2.5"/>
+              <path d="M122,86 Q140,77 158,86" fill="none" stroke="#a88820" stroke-width="1" opacity="0.5"/>
+              <!-- Helmet side details -->
+              <path d="M104,108 Q102,118 104,128" fill="none" stroke="#8a6a18" stroke-width="1.2"/>
+              <path d="M176,108 Q178,118 176,128" fill="none" stroke="#8a6a18" stroke-width="1.2"/>
+              <!-- Helmet bottom edge -->
+              <path d="M108,132 Q140,140 172,132" fill="none" stroke="#8a6a18" stroke-width="1"/>
+
+              <!-- Sunlight Medal at neck -->
+              <circle cx="140" cy="148" r="7" fill="#ffcc00" stroke="#d4af37" stroke-width="1.5"/>
+              <circle cx="140" cy="148" r="4" fill="#ff8800"/>
+              <circle cx="140" cy="148" r="1.5" fill="#ffcc00"/>
+            </svg>
+          </div>
+          <h3 class="legend-name">Solaire of Astora</h3>
+          <p class="legend-role">Warrior of Sunlight</p>
+          <p class="legend-desc">An incredibly resilient, joyful warrior who became undead by choice to search for his personal sun. His unwavering optimism inspires all who meet him.</p>
+          <div class="legend-quote">"Praise the Sun!"</div>
+        </div>
+
+        <!-- SIEGMEYER OF CATARINA — Ultra Detailed Portrait (Gray Armor) -->
+        <div class="legend-card">
+          <div class="legend-svg">
+            <svg viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="onionGray" x1="0" y1="0" x2="0.3" y2="1">
+                  <stop offset="0%" stop-color="#b0b0b0"/>
+                  <stop offset="30%" stop-color="#909090"/>
+                  <stop offset="60%" stop-color="#707070"/>
+                  <stop offset="100%" stop-color="#505050"/>
+                </linearGradient>
+                <linearGradient id="onionDarkGray" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#909090"/>
+                  <stop offset="100%" stop-color="#404040"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Bulky onion body - multiple bulge layers -->
+              <ellipse cx="140" cy="250" rx="65" ry="70" fill="url(#onionGray)" stroke="#404040" stroke-width="2.5"/>
+              <ellipse cx="140" cy="240" rx="58" ry="60" fill="#808080"/>
+              <ellipse cx="140" cy="235" rx="50" ry="52" fill="#909090"/>
+              <!-- Body ridges - more pronounced -->
+              <path d="M82,225 Q140,208 198,225" fill="none" stroke="#505050" stroke-width="2" opacity="0.5"/>
+              <path d="M78,245 Q140,228 202,245" fill="none" stroke="#505050" stroke-width="2" opacity="0.5"/>
+              <path d="M80,265 Q140,248 200,265" fill="none" stroke="#505050" stroke-width="2" opacity="0.5"/>
+              <path d="M85,285 Q140,268 195,285" fill="none" stroke="#505050" stroke-width="1.5" opacity="0.4"/>
+              <!-- Belly emphasis -->
+              <ellipse cx="140" cy="255" rx="40" ry="45" fill="#808080" opacity="0.4"/>
+              <!-- Armor dents and weathering -->
+              <circle cx="115" cy="230" r="3" fill="none" stroke="#606060" stroke-width="0.8" opacity="0.4"/>
+              <circle cx="165" cy="245" r="2" fill="none" stroke="#606060" stroke-width="0.6" opacity="0.3"/>
+              <path d="M125,260 L130,255 L135,262" fill="none" stroke="#606060" stroke-width="0.5" opacity="0.3"/>
+
+              <!-- Onion helmet - large and round with ridges -->
+              <ellipse cx="140" cy="130" rx="48" ry="52" fill="url(#onionGray)" stroke="#404040" stroke-width="2.5"/>
+              <ellipse cx="140" cy="127" rx="40" ry="44" fill="#808080"/>
+              <ellipse cx="140" cy="125" rx="33" ry="37" fill="#909090"/>
+              <!-- Helmet ridges -->
+              <path d="M94,118 Q140,100 186,118" fill="none" stroke="#505050" stroke-width="2" opacity="0.5"/>
+              <path d="M92,135 Q140,120 188,135" fill="none" stroke="#505050" stroke-width="2" opacity="0.5"/>
+              <path d="M95,150 Q140,138 185,150" fill="none" stroke="#505050" stroke-width="1.5" opacity="0.4"/>
+              <!-- Visor slit -->
+              <path d="M110,130 L170,130" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+              <path d="M113,130 L167,130" stroke="#2a2a2a" stroke-width="2.5"/>
+              <!-- Eye holes -->
+              <ellipse cx="125" cy="128" rx="6" ry="5" fill="#111"/>
+              <ellipse cx="155" cy="128" rx="6" ry="5" fill="#111"/>
+              <!-- Eyes visible through visor -->
+              <circle cx="125" cy="128" r="2.5" fill="#ccaa44" opacity="0.7"/>
+              <circle cx="155" cy="128" r="2.5" fill="#ccaa44" opacity="0.7"/>
+              <circle cx="125" cy="128" r="1" fill="#fff" opacity="0.3"/>
+              <circle cx="155" cy="128" r="1" fill="#fff" opacity="0.3"/>
+              <!-- Helmet weathering -->
+              <circle cx="115" cy="115" r="2" fill="none" stroke="#606060" stroke-width="0.5" opacity="0.3"/>
+              <circle cx="165" cy="120" r="1.5" fill="none" stroke="#606060" stroke-width="0.5" opacity="0.3"/>
+
+              <!-- Grass Crest Shield (left arm) - Gray metal -->
+              <g transform="translate(-22, 0)">
+                <ellipse cx="60" cy="210" rx="24" ry="30" fill="#606060" stroke="#404040" stroke-width="1.5"/>
+                <!-- Shield boss -->
+                <ellipse cx="60" cy="205" rx="14" ry="18" fill="#505050"/>
+                <!-- Shield cross pattern -->
+                <path d="M60,185 L60,225" stroke="#404040" stroke-width="2"/>
+                <path d="M44,200 L76,200" stroke="#404040" stroke-width="1.5"/>
+                <path d="M47,210 L73,210" stroke="#404040" stroke-width="1"/>
+                <!-- Shield border rivets -->
+                <circle cx="60" cy="182" r="1.5" fill="#404040"/>
+                <circle cx="60" cy="228" r="1.5" fill="#404040"/>
+                <circle cx="38" cy="205" r="1.5" fill="#404040"/>
+                <circle cx="82" cy="205" r="1.5" fill="#404040"/>
+                <!-- Shield weathering -->
+                <circle cx="52" cy="195" r="2" fill="none" stroke="#707070" stroke-width="0.5" opacity="0.4"/>
+                <circle cx="68" cy="215" r="1.5" fill="none" stroke="#707070" stroke-width="0.5" opacity="0.3"/>
+              </g>
+
+              <!-- Right arm -->
+              <path d="M198,190 Q210,205 205,235 L195,240 L190,210 Z" fill="#707070" stroke="#505050" stroke-width="1"/>
+
+              <!-- Zweihander greatsword - detailed -->
+              <g transform="rotate(-28 200 110)">
+                <!-- Blade -->
+                <rect x="198" y="48" width="6" height="125" fill="#888" rx="1"/>
+                <rect x="199" y="50" width="4" height="121" fill="#999" opacity="0.5"/>
+                <!-- Blade edge highlight -->
+                <line x1="199" y1="52" x2="199" y2="170" stroke="#bbb" stroke-width="0.5" opacity="0.4"/>
+                <!-- Blood stains on blade -->
+                <ellipse cx="201" cy="90" rx="2" ry="4" fill="#661111" opacity="0.3" transform="rotate(5 201 90)"/>
+                <ellipse cx="200" cy="130" rx="1.5" ry="3" fill="#661111" opacity="0.25" transform="rotate(-3 200 130)"/>
+                <!-- Blade tip -->
+                <path d="M198,48 L201,30 L204,48" fill="#999"/>
+                <!-- Fuller/groove -->
+                <line x1="201" y1="52" x2="201" y2="168" stroke="#666" stroke-width="1"/>
+                <!-- Crossguard -->
+                <rect x="191" y="170" width="20" height="7" rx="2" fill="#666" stroke="#555" stroke-width="0.5"/>
+                <rect x="193" y="171" width="16" height="5" fill="#777" opacity="0.4"/>
+                <!-- Grip wrap -->
+                <rect x="199" y="177" width="4" height="22" fill="#4a3a2a"/>
+                <line x1="199" y1="181" x2="203" y2="181" stroke="#6a5a3a" stroke-width="0.5"/>
+                <line x1="199" y1="185" x2="203" y2="185" stroke="#6a5a3a" stroke-width="0.5"/>
+                <line x1="199" y1="189" x2="203" y2="189" stroke="#6a5a3a" stroke-width="0.5"/>
+                <line x1="199" y1="193" x2="203" y2="193" stroke="#6a5a3a" stroke-width="0.5"/>
+                <!-- Pommel -->
+                <circle cx="201" cy="201" r="6" fill="#888" stroke="#666" stroke-width="0.5"/>
+                <circle cx="201" cy="201" r="2.5" fill="#999"/>
+              </g>
+
+              <!-- Feet/boots peeking out -->
+              <ellipse cx="122" cy="318" rx="14" ry="7" fill="#404040"/>
+              <ellipse cx="158" cy="318" rx="14" ry="7" fill="#404040"/>
+              <!-- Boot details -->
+              <path d="M108,318 L136,318" stroke="#303030" stroke-width="0.8" opacity="0.5"/>
+              <path d="M144,318 L172,318" stroke="#303030" stroke-width="0.8" opacity="0.5"/>
+            </svg>
+          </div>
+          <h3 class="legend-name">Siegmeyer of Catarina</h3>
+          <p class="legend-role">Onion Knight</p>
+          <p class="legend-desc">A robust knight wearing onion-shaped armor who constantly stumbles into danger while pursuing adventure, always caught in deep meditation.</p>
+          <div class="legend-quote">"Hmm... I don't know what came over me..."</div>
+        </div>
+
+        <!-- KNIGHT ARTORIAS — Ultra Detailed Portrait -->
+        <div class="legend-card">
+          <div class="legend-svg">
+            <svg viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="abyssAura" cx="50%" cy="50%" r="55%">
+                  <stop offset="0%" stop-color="#7700dd" stop-opacity="0.3"/>
+                  <stop offset="40%" stop-color="#440088" stop-opacity="0.12"/>
+                  <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="darkPlate" x1="0" y1="0" x2="0.2" y2="1">
+                  <stop offset="0%" stop-color="#3a3a5a"/>
+                  <stop offset="30%" stop-color="#2a2a4a"/>
+                  <stop offset="60%" stop-color="#1a1a3a"/>
+                  <stop offset="100%" stop-color="#0a0a2a"/>
+                </linearGradient>
+                <filter id="corruptionGlow">
+                  <feGaussianBlur stdDeviation="4" result="b"/>
+                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <filter id="abyssShimmer">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" result="noise"/>
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"/>
+                </filter>
+              </defs>
+
+              <!-- Abyss background aura -->
+              <circle cx="140" cy="180" r="100" fill="url(#abyssAura)"/>
+
+              <!-- Tattered cape - flowing with tears -->
+              <path d="M80,155 Q50,220 60,310 Q68,330 85,320 L90,250 Q85,210 90,170 Z" fill="#15152a" opacity="0.7"/>
+              <path d="M200,155 Q230,220 220,310 Q212,330 195,320 L190,250 Q195,210 190,170 Z" fill="#15152a" opacity="0.7"/>
+              <!-- Cape inner layer -->
+              <path d="M85,160 Q58,225 68,305 Q74,320 88,312 L92,245 Q88,210 92,172 Z" fill="#1a1a30" opacity="0.5"/>
+              <path d="M195,160 Q222,225 212,305 Q206,320 192,312 L188,245 Q192,210 188,172 Z" fill="#1a1a30" opacity="0.5"/>
+              <!-- Cape tatters -->
+              <path d="M60,310 Q55,325 63,332" fill="none" stroke="#15152a" stroke-width="2.5" opacity="0.6"/>
+              <path d="M75,315 Q70,330 78,337" fill="none" stroke="#15152a" stroke-width="2" opacity="0.5"/>
+              <path d="M220,310 Q225,325 217,332" fill="none" stroke="#15152a" stroke-width="2.5" opacity="0.6"/>
+              <path d="M205,315 Q210,330 202,337" fill="none" stroke="#15152a" stroke-width="2" opacity="0.5"/>
+
+              <!-- Corrupted armor body - layered plates -->
+              <path d="M90,155 L85,230 L108,258 L140,248 L172,258 L195,230 L190,155 Z" fill="url(#darkPlate)" stroke="#3a3a5a" stroke-width="1.5"/>
+              <!-- Chest plate -->
+              <path d="M100,165 L140,155 L180,165 L175,205 L140,215 L105,205 Z" fill="#252545" stroke="#3a3a5a" stroke-width="0.8"/>
+              <!-- Armor plate lines -->
+              <path d="M105,175 L140,168 L175,175" fill="none" stroke="#3a3a5a" stroke-width="0.6"/>
+              <path d="M102,190 L140,183 L178,190" fill="none" stroke="#3a3a5a" stroke-width="0.6"/>
+              <!-- Corruption veins spreading -->
+              <path d="M110,170 Q120,190 115,215" fill="none" stroke="#7700dd" stroke-width="1.2" opacity="0.5"/>
+              <path d="M170,170 Q160,190 165,215" fill="none" stroke="#7700dd" stroke-width="1.2" opacity="0.5"/>
+              <path d="M140,162 Q135,180 140,205" fill="none" stroke="#6600cc" stroke-width="0.8" opacity="0.4"/>
+              <path d="M125,175 Q130,195 128,210" fill="none" stroke="#5500aa" stroke-width="0.6" opacity="0.3"/>
+              <path d="M155,175 Q150,195 152,210" fill="none" stroke="#5500aa" stroke-width="0.6" opacity="0.3"/>
+              <!-- More corruption veins -->
+              <path d="M105,180 Q108,195 102,210" fill="none" stroke="#8800ff" stroke-width="0.5" opacity="0.25"/>
+              <path d="M175,180 Q172,195 178,210" fill="none" stroke="#8800ff" stroke-width="0.5" opacity="0.25"/>
+              <!-- Armor battle damage -->
+              <path d="M112,185 L118,180 L122,188" fill="none" stroke="#1a1a3a" stroke-width="0.8" opacity="0.5"/>
+              <circle cx="165" cy="190" r="2" fill="none" stroke="#1a1a3a" stroke-width="0.6" opacity="0.4"/>
+              <path d="M135,200 L142,195 L140,205" fill="none" stroke="#1a1a3a" stroke-width="0.5" opacity="0.3"/>
+
+              <!-- Pauldrons - left -->
+              <path d="M70,148 Q78,135 96,142 L100,165 L82,167 Z" fill="#2a2a4a" stroke="#4a4a6a" stroke-width="1.2"/>
+              <path d="M74,152 Q82,142 94,146 L96,160 L84,162 Z" fill="#3a3a5a" opacity="0.5"/>
+              <!-- Pauldron spikes -->
+              <path d="M72,145 L68,135 L76,142" fill="#2a2a4a"/>
+
+              <!-- Pauldrons - right -->
+              <path d="M210,148 Q202,135 184,142 L180,165 L198,167 Z" fill="#2a2a4a" stroke="#4a4a6a" stroke-width="1.2"/>
+              <path d="M206,152 Q198,142 186,146 L184,160 L196,162 Z" fill="#3a3a5a" opacity="0.5"/>
+              <path d="M208,145 L212,135 L204,142" fill="#2a2a4a"/>
+
+              <!-- Wolf helm - ultra detailed -->
+              <path d="M98,128 L140,82 L182,128 L175,142 L105,142 Z" fill="#2a2a4a" stroke="#4a4a6a" stroke-width="1.5"/>
+              <!-- Wolf ears on helm -->
+              <path d="M100,115 L90,78 L115,105" fill="#2a2a4a" stroke="#4a4a6a" stroke-width="1.2"/>
+              <path d="M180,115 L190,78 L165,105" fill="#2a2a4a" stroke="#4a4a6a" stroke-width="1.2"/>
+              <!-- Inner ears -->
+              <path d="M103,112 L95,85 L112,103" fill="#1a1a3a"/>
+              <path d="M177,112 L185,85 L168,103" fill="#1a1a3a"/>
+              <!-- Glowing purple eyes -->
+              <ellipse cx="125" cy="120" rx="6" ry="7" fill="#8800ff" filter="url(#corruptionGlow)"/>
+              <ellipse cx="155" cy="120" rx="6" ry="7" fill="#8800ff" filter="url(#corruptionGlow)"/>
+              <circle cx="125" cy="120" r="3" fill="#cc66ff"/>
+              <circle cx="155" cy="120" r="3" fill="#cc66ff"/>
+              <circle cx="124" cy="118" r="1" fill="#fff" opacity="0.5"/>
+              <circle cx="154" cy="118" r="1" fill="#fff" opacity="0.5"/>
+              <!-- Helm snout -->
+              <path d="M120,130 L160,130 L155,138 L125,138 Z" fill="#1a1a3a" stroke="#3a3a5a" stroke-width="0.8"/>
+              <!-- Helm center ridge -->
+              <path d="M140,85 L140,105" stroke="#4a4a6a" stroke-width="1.5"/>
+
+              <!-- Greatsword of Artorias - detailed -->
+              <g transform="rotate(-38 200 100)">
+                <!-- Blade -->
+                <rect x="197" y="32" width="8" height="155" fill="#3a3a5a" rx="2"/>
+                <rect x="198.5" y="36" width="5" height="148" fill="#4a4a6a" opacity="0.5"/>
+                <!-- Blade edge highlight -->
+                <line x1="199" y1="40" x2="199" y2="182" stroke="#5a5a7a" stroke-width="0.6" opacity="0.4"/>
+                <!-- Fuller/groove -->
+                <line x1="201" y1="42" x2="201" y2="180" stroke="#2a2a4a" stroke-width="1.2"/>
+                <!-- Blade tip -->
+                <path d="M197,32 L201,12 L205,32" fill="#4a4a6a"/>
+                <!-- Abyssal energy on blade -->
+                <path d="M200,50 Q203,70 199,90 Q197,110 201,130" fill="none" stroke="#7700dd" stroke-width="0.8" opacity="0.4"/>
+                <!-- Crossguard -->
+                <rect x="189" y="185" width="24" height="8" rx="2" fill="#2a2a4a" stroke="#4a4a6a" stroke-width="0.8"/>
+                <rect x="191" y="186" width="20" height="6" fill="#3a3a5a" opacity="0.4"/>
+                <!-- Grip -->
+                <rect x="199" y="193" width="4" height="25" fill="#1a1a2a"/>
+                <line x1="199" y1="197" x2="203" y2="197" stroke="#2a2a3a" stroke-width="0.5"/>
+                <line x1="199" y1="201" x2="203" y2="201" stroke="#2a2a3a" stroke-width="0.5"/>
+                <line x1="199" y1="205" x2="203" y2="205" stroke="#2a2a3a" stroke-width="0.5"/>
+                <line x1="199" y1="209" x2="203" y2="209" stroke="#2a2a3a" stroke-width="0.5"/>
+                <line x1="199" y1="213" x2="203" y2="213" stroke="#2a2a3a" stroke-width="0.5"/>
+                <!-- Pommel -->
+                <circle cx="201" cy="220" r="6" fill="#3a3a5a" stroke="#4a4a6a" stroke-width="0.8"/>
+                <circle cx="201" cy="220" r="2.5" fill="#4a4a6a"/>
+              </g>
+
+              <!-- Abyss particles floating - more and varied -->
+              <g>
+                <circle cx="80" cy="210" r="2.5" fill="#7700dd" opacity="0.5"><animate attributeName="opacity" values="0.5;0.05;0.5" dur="2.2s" repeatCount="indefinite"/><animate attributeName="cy" values="210;195;210" dur="2.2s" repeatCount="indefinite"/></circle>
+                <circle cx="195" cy="200" r="2" fill="#6600cc" opacity="0.4"><animate attributeName="opacity" values="0.4;0.03;0.4" dur="1.8s" repeatCount="indefinite"/><animate attributeName="cy" values="200;185;200" dur="1.8s" repeatCount="indefinite"/></circle>
+                <circle cx="115" cy="235" r="1.5" fill="#8800ff" opacity="0.4"><animate attributeName="opacity" values="0.4;0.05;0.4" dur="2.5s" repeatCount="indefinite"/><animate attributeName="cy" values="235;220;235" dur="2.5s" repeatCount="indefinite"/></circle>
+                <circle cx="160" cy="225" r="2" fill="#5500aa" opacity="0.35"><animate attributeName="opacity" values="0.35;0.03;0.35" dur="2s" repeatCount="indefinite"/><animate attributeName="cy" values="225;210;225" dur="2s" repeatCount="indefinite"/></circle>
+                <circle cx="100" cy="260" r="1.5" fill="#7700dd" opacity="0.3"><animate attributeName="opacity" values="0.3;0.02;0.3" dur="2.8s" repeatCount="indefinite"/></circle>
+                <circle cx="175" cy="250" r="1" fill="#8800ff" opacity="0.25"><animate attributeName="opacity" values="0.25;0.02;0.25" dur="1.6s" repeatCount="indefinite"/></circle>
+              </g>
+            </svg>
+          </div>
+          <h3 class="legend-name">Knight Artorias</h3>
+          <p class="legend-role">Abysswalker</p>
+          <p class="legend-desc">One of Gwyn's top four knights, famous for traversing the Abyss. Sacrificed his shield to safeguard his wolf companion Sif in Oolacile before getting corrupted.</p>
+          <div class="legend-quote">"RAAAARGH!"</div>
+        </div>
+
+        <!-- GREAT GREY WOLF SIF — Ultra Detailed Portrait -->
+        <div class="legend-card">
+          <div class="legend-svg">
+            <svg viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="moonHalo" cx="50%" cy="12%" r="45%">
+                  <stop offset="0%" stop-color="#ccddff" stop-opacity="0.35"/>
+                  <stop offset="40%" stop-color="#8899bb" stop-opacity="0.1"/>
+                  <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="wolfBody" x1="0" y1="0" x2="0.2" y2="1">
+                  <stop offset="0%" stop-color="#7a7a8a"/>
+                  <stop offset="30%" stop-color="#5a5a6a"/>
+                  <stop offset="60%" stop-color="#4a4a5a"/>
+                  <stop offset="100%" stop-color="#3a3a4a"/>
+                </linearGradient>
+                <linearGradient id="wolfDark" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#4a4a5a"/>
+                  <stop offset="100%" stop-color="#2a2a3a"/>
+                </linearGradient>
+                <filter id="furSoft">
+                  <feGaussianBlur stdDeviation="0.5"/>
+                </filter>
+              </defs>
+
+              <!-- Moon background -->
+              <circle cx="140" cy="42" r="40" fill="url(#moonHalo)"/>
+              <circle cx="140" cy="42" r="22" fill="#aabbcc" opacity="0.06"/>
+              <circle cx="140" cy="42" r="14" fill="#bbccdd" opacity="0.04"/>
+
+              <!-- Wolf body - large and majestic -->
+              <ellipse cx="140" cy="260" rx="75" ry="55" fill="url(#wolfBody)"/>
+              <!-- Body fur texture lines -->
+              <g stroke="#5a5a6a" stroke-width="0.6" opacity="0.35">
+                <path d="M75,248 Q110,238 140,248 Q170,258 205,248"/>
+                <path d="M70,263 Q110,253 140,263 Q170,273 210,263"/>
+                <path d="M72,278 Q110,268 140,278 Q170,288 208,278"/>
+                <path d="M78,290 Q110,280 140,290 Q170,300 202,290"/>
+              </g>
+              <!-- More fur texture -->
+              <g stroke="#4a4a5a" stroke-width="0.4" opacity="0.25">
+                <path d="M80,255 Q115,248 145,255 Q175,262 200,255"/>
+                <path d="M85,270 Q115,263 145,270 Q175,277 195,270"/>
+                <path d="M88,282 Q120,275 145,282 Q170,289 192,282"/>
+              </g>
+              <!-- Battle scars on body -->
+              <path d="M100,260 L115,255 L110,265" fill="none" stroke="#3a3a4a" stroke-width="0.8" opacity="0.4"/>
+              <path d="M170,270 L180,265 L175,275" fill="none" stroke="#3a3a4a" stroke-width="0.6" opacity="0.3"/>
+              <!-- Body shadow -->
+              <ellipse cx="140" cy="275" rx="65" ry="30" fill="#2a2a3a" opacity="0.2"/>
+
+              <!-- Front legs - detailed -->
+              <path d="M100,280 L95,325 L108,330 L118,285 Z" fill="url(#wolfDark)"/>
+              <path d="M155,280 L160,325 L173,330 L168,285 Z" fill="url(#wolfDark)"/>
+              <!-- Paws with toes -->
+              <ellipse cx="106" cy="330" rx="10" ry="5" fill="#3a3a4a"/>
+              <path d="M98,330 L96,335 M102,332 L100,337 M106,333 L106,338 M110,332 L112,337 M114,330 L116,335" stroke="#2a2a3a" stroke-width="0.8"/>
+              <ellipse cx="168" cy="330" rx="10" ry="5" fill="#3a3a4a"/>
+              <path d="M160,330 L158,335 M164,332 L162,337 M168,333 L168,338 M172,332 L174,337 M176,330 L178,335" stroke="#2a2a3a" stroke-width="0.8"/>
+
+              <!-- Back legs -->
+              <path d="M82,270 L72,318 L85,322 L95,275 Z" fill="#3a3a4a"/>
+              <path d="M185,270 L195,318 L205,322 L198,275 Z" fill="#3a3a4a"/>
+
+              <!-- Wolf head - detailed -->
+              <ellipse cx="140" cy="160" rx="45" ry="38" fill="url(#wolfBody)"/>
+              <!-- Muzzle -->
+              <ellipse cx="140" cy="182" rx="22" ry="16" fill="#5a5a6a"/>
+              <ellipse cx="140" cy="179" rx="17" ry="12" fill="#6a6a7a"/>
+              <!-- Nose - detailed -->
+              <ellipse cx="140" cy="175" rx="7" ry="5" fill="#2a2a3a"/>
+              <ellipse cx="140" cy="174" rx="4" ry="3" fill="#3a3a4a" opacity="0.5"/>
+              <ellipse cx="138" cy="173" rx="1.5" ry="1" fill="#4a4a5a" opacity="0.4"/>
+
+              <!-- Ears - pointed wolf ears with fur -->
+              <path d="M98,148 L88,100 L118,138" fill="url(#wolfBody)" stroke="#4a4a5a" stroke-width="0.8"/>
+              <path d="M182,148 L192,100 L162,138" fill="url(#wolfBody)" stroke="#4a4a5a" stroke-width="0.8"/>
+              <!-- Inner ears -->
+              <path d="M102,144 L94,110 L115,135" fill="#4a4a5a"/>
+              <path d="M178,144 L186,110 L165,135" fill="#4a4a5a"/>
+              <!-- Ear fur tufts -->
+              <path d="M96,115 Q92,108 98,105" fill="none" stroke="#5a5a6a" stroke-width="0.8" opacity="0.5"/>
+              <path d="M184,115 Q188,108 182,105" fill="none" stroke="#5a5a6a" stroke-width="0.8" opacity="0.5"/>
+
+              <!-- Eyes - golden and wise -->
+              <ellipse cx="122" cy="158" rx="9" ry="10" fill="#ddcc44"/>
+              <ellipse cx="158" cy="158" rx="9" ry="10" fill="#ddcc44"/>
+              <!-- Iris detail -->
+              <ellipse cx="122" cy="158" rx="4" ry="8" fill="#aa8822"/>
+              <ellipse cx="158" cy="158" rx="4" ry="8" fill="#aa8822"/>
+              <!-- Pupil -->
+              <ellipse cx="122" cy="158" rx="2.5" ry="7" fill="#1a1a0a"/>
+              <ellipse cx="158" cy="158" rx="2.5" ry="7" fill="#1a1a0a"/>
+              <!-- Eye highlights -->
+              <circle cx="119" cy="155" r="2.5" fill="#fff" opacity="0.7"/>
+              <circle cx="155" cy="155" r="2.5" fill="#fff" opacity="0.7"/>
+              <circle cx="124" cy="160" r="1" fill="#fff" opacity="0.3"/>
+              <circle cx="160" cy="160" r="1" fill="#fff" opacity="0.3"/>
+
+              <!-- Wolf armor - ornate shoulder plates with rivets -->
+              <path d="M65,190 L95,175 L140,195 L185,175 L215,190 L210,215 L70,215 Z" fill="#3a3a4a" stroke="#5a5a6a" stroke-width="1.5"/>
+              <!-- Armor plate details -->
+              <path d="M90,182 L140,195 L190,182" fill="none" stroke="#6a6a7a" stroke-width="1" opacity="0.5"/>
+              <path d="M85,198 L140,210 L195,198" fill="none" stroke="#6a6a7a" stroke-width="0.8" opacity="0.4"/>
+              <path d="M80,208 L140,218 L200,208" fill="none" stroke="#6a6a7a" stroke-width="0.5" opacity="0.3"/>
+              <!-- Armor rivets -->
+              <circle cx="85" cy="192" r="2.5" fill="#5a5a6a"/><circle cx="195" cy="192" r="2.5" fill="#5a5a6a"/>
+              <circle cx="140" cy="205" r="2.5" fill="#5a5a6a"/>
+              <circle cx="110" cy="198" r="2" fill="#5a5a6a"/><circle cx="170" cy="198" r="2" fill="#5a5a6a"/>
+              <!-- Armor battle damage -->
+              <path d="M100,188 L108,182 L105,192" fill="none" stroke="#2a2a3a" stroke-width="0.7" opacity="0.4"/>
+              <circle cx="180" cy="195" r="2" fill="none" stroke="#2a2a3a" stroke-width="0.6" opacity="0.3"/>
+              <!-- Moonlight reflections on armor -->
+              <path d="M95,185 Q100,180 105,185" fill="none" stroke="#aabbcc" stroke-width="0.4" opacity="0.2"/>
+              <path d="M175,185 Q180,180 185,185" fill="none" stroke="#aabbcc" stroke-width="0.4" opacity="0.2"/>
+
+              <!-- Artorias' Greatsword held in mouth - detailed -->
+              <g transform="rotate(-14 140 175)">
+                <rect x="137" y="110" width="7" height="115" fill="#4a4a6a" rx="1.5"/>
+                <!-- Blade detail -->
+                <rect x="138.5" y="115" width="4" height="105" fill="#5a5a7a" opacity="0.4"/>
+                <!-- Blade edge -->
+                <line x1="139" y1="118" x2="139" y2="220" stroke="#6a6a8a" stroke-width="0.5" opacity="0.3"/>
+                <!-- Fuller -->
+                <line x1="140.5" y1="120" x2="140.5" y2="218" stroke="#3a3a5a" stroke-width="1"/>
+                <!-- Blade tip -->
+                <path d="M137,110 L140.5,95 L144,110" fill="#5a5a7a"/>
+                <!-- Abyssal glow on blade -->
+                <path d="M140,120 Q142,140 139,160 Q138,180 140,200" fill="none" stroke="#7700dd" stroke-width="0.8" opacity="0.3"/>
+                <!-- Crossguard -->
+                <rect x="131" y="222" width="19" height="6" rx="2" fill="#3a3a4a" stroke="#5a5a6a" stroke-width="0.8"/>
+                <!-- Grip -->
+                <rect x="138" y="228" width="5" height="20" fill="#2a2a3a"/>
+                <!-- Pommel -->
+                <circle cx="140.5" cy="250" r="5" fill="#4a4a6a" stroke="#5a5a6a" stroke-width="0.5"/>
+              </g>
+
+              <!-- Tail - bushy and flowing with fur detail -->
+              <path d="M210,258 Q235,238 240,258 Q245,278 228,290 Q218,296 212,285" fill="#4a4a5a"/>
+              <path d="M212,262 Q232,245 236,262 Q240,275 225,285 Q218,290 214,280" fill="#5a5a6a" opacity="0.6"/>
+              <!-- Tail fur lines -->
+              <path d="M215,265 Q228,252 232,265" fill="none" stroke="#6a6a7a" stroke-width="0.5" opacity="0.4"/>
+              <path d="M218,272 Q228,262 230,275" fill="none" stroke="#6a6a7a" stroke-width="0.5" opacity="0.3"/>
+
+              <!-- Moonlight aura around Sif - multiple rings -->
+              <circle cx="140" cy="170" r="65" fill="none" stroke="#aabbcc" stroke-width="0.5" opacity="0.15">
+                <animate attributeName="r" values="62;72;62" dur="4s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.15;0.03;0.15" dur="4s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="140" cy="170" r="52" fill="none" stroke="#aabbcc" stroke-width="0.4" opacity="0.12">
+                <animate attributeName="r" values="49;58;49" dur="3.5s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.12;0.02;0.12" dur="3.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="140" cy="170" r="40" fill="none" stroke="#bbccdd" stroke-width="0.3" opacity="0.08">
+                <animate attributeName="r" values="38;45;38" dur="5s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.08;0.01;0.08" dur="5s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+          </div>
+          <h3 class="legend-name">Great Grey Wolf Sif</h3>
+          <p class="legend-role">Guardian of Artorias' Grave</p>
+          <p class="legend-desc">The loyal companion of Knight Artorias. Guards his master's grave in Darkroot Garden, wielding Artorias' greatsword in her mouth to protect his legacy.</p>
+          <div class="legend-quote">*loyal howl*</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CURSED LANDS (LOCATIONS MAP) -->
+  <section id="locations" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><path d="M4,4 L10,4 L12,2 L14,4 L20,4 L20,14 L14,14 L12,22 L10,14 L4,14 Z" fill="none" stroke="var(--gold)" stroke-width="1.5"/><circle cx="12" cy="9" r="2" fill="var(--gold)" opacity="0.6"/></svg> Cursed Lands</h2>
+      <p class="section-subtitle">— where the fate of Lordran was sealed —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <div class="lordran-map-container" id="lordran-map">
+        <!-- SVG map generated by JS -->
+      </div>
+
+      <div class="locations-layout">
+        <!-- Scrollable Navigation Sidebar -->
+        <div class="location-list-pane" id="location-list">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Detail Panel -->
+        <div class="location-detail-pane" id="location-detail">
+          <!-- Refreshed via select triggers -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LORDS OF CINDER (BOSS BESTIARY) -->
+  <section id="bosses" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><path d="M12,2 L14,18 L12,22 L10,18 Z" fill="var(--gold)" opacity="0.8"/><path d="M8,6 L16,6" stroke="var(--gold)" stroke-width="2" fill="none"/><path d="M9,10 L15,10" stroke="var(--gold)" stroke-width="1.5" fill="none" opacity="0.6"/></svg> Lords of Cinder</h2>
+      <p class="section-subtitle">— the true test of the Dark Souls experience —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem auto;">
+        Bosses aren't your typical videogame boss fodder. They're devoid of obvious weak spots, attack relentlessly, and require cunning, expert strategy, and a lot of patience to defeat [citation:1].
+      </p>
+
+      <!-- Bestiary Search and Filter -->
+      <div class="boss-controls">
+        <input type="text" id="boss-search" class="boss-search" placeholder="Search boss, location, or drops...">
+        <div class="filter-tabs" style="margin-bottom: 0;">
+          <button class="tab-btn active" data-boss-filter="all">All</button>
+          <button class="tab-btn" data-boss-filter="main">Main Game</button>
+          <button class="tab-btn" data-boss-filter="dlc">DLC</button>
+        </div>
+        <div class="boss-sort" style="display:flex;gap:0.5rem;align-items:center">
+          <span style="font-family:var(--font-ui);font-size:0.65rem;color:var(--text-secondary);letter-spacing:1px">Sort:</span>
+          <button class="tab-btn active" data-boss-sort="name">Name</button>
+          <button class="tab-btn" data-boss-sort="location">Location</button>
+          <button class="tab-btn" data-boss-sort="difficulty">Difficulty</button>
+        </div>
+      </div>
+      <div class="boss-count" id="boss-count" style="text-align:center;margin-bottom:1.5rem;font-family:var(--font-ui);font-size:0.7rem;color:var(--text-secondary);letter-spacing:1px"></div>
+
+      <!-- Boss Grid -->
+      <div class="boss-grid" id="boss-container">
+        <!-- Loaded dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- COVENANTS (FACTIONS OF LORDRAN) -->
+  <section id="covenants" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><polygon points="12,3 21,9 18,20 6,20 3,9" fill="none" stroke="var(--gold)" stroke-width="1.5"/><circle cx="12" cy="12" r="3" fill="var(--gold)" opacity="0.5"/></svg> Covenants</h2>
+      <p class="section-subtitle">— the factions that shape the fate of Lordran —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <p style="text-align: center; max-width: 800px; margin: 0 auto 3.5rem auto;">
+        Covenants are factions that players can align with, offering unique benefits, items, and multiplayer interactions. Each covenant is deeply rooted in the game's lore and reflects different philosophies and allegiances [citation:4].
+      </p>
+
+      <div class="covenant-grid" id="covenants-container">
+        <!-- Loaded dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY ITEMS & MECHANICS -->
+  <section id="key-items" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><circle cx="12" cy="12" r="9" fill="none" stroke="var(--gold)" stroke-width="1.5"/><path d="M12,4 C9,9 15,9 12,20" fill="none" stroke="var(--fire-1)" stroke-width="1.5"/></svg> Key Items</h2>
+      <p class="section-subtitle">— the artifacts that define the Undead journey —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <div class="item-grid">
+        <!-- Darksign -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="30" fill="none" stroke="#ff4500" stroke-width="5" filter="drop-shadow(0 0 5px #ff4500)" />
+              <path d="M50,20 C40,40 60,40 50,80" fill="none" stroke="#050302" stroke-width="3" />
+            </svg>
+          </div>
+          <h3>The Darksign</h3>
+          <p>A branding representing the curse of the Undead [citation:2]. It ties humanity directly to bonfires, sending the cursed back to safety at the costly sacrifice of accumulated souls and humanity [citation:2].</p>
+        </div>
+
+        <!-- Humanity -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <path d="M50,15 C20,50 35,85 50,85 C65,85 80,50 50,15 Z" fill="#0c0908" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5" />
+              <!-- Small glowing humanity eyes -->
+              <circle cx="43" cy="60" r="2" fill="#fff" filter="drop-shadow(0 0 2px #fff)"/>
+              <circle cx="57" cy="60" r="2" fill="#fff" filter="drop-shadow(0 0 2px #fff)"/>
+            </svg>
+          </div>
+          <h3>Humanity</h3>
+          <p>Black sprites found deep inside human bosoms [citation:1]. They define core item discovery rates and resistances [citation:1]. Consuming humanity reverts hollowing but risks total loss upon unexpected death [citation:1].</p>
+        </div>
+
+        <!-- Lordvessel -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="2">
+              <path d="M25,30 C25,25 75,25 75,30 L70,65 C70,75 30,75 30,65 Z" fill="var(--gold-glow)"/>
+              <path d="M20,30 L80,30 M30,75 L70,75" stroke-width="3" />
+              <!-- Ornate Handles -->
+              <path d="M22,35 C10,35 15,60 28,62 M78,35 C90,35 85,60 72,62" />
+            </svg>
+          </div>
+          <h3>The Lordvessel</h3>
+          <p>An relic bestowed by Gwynevere, allowing warping between distant bonfires [citation:10]. The vessel is required to gather the Lord Souls to break the sealed gates of the Kiln of the First Flame [citation:3].</p>
+        </div>
+
+        <!-- Souls -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <defs>
+                <radialGradient id="soulGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#ffffff" />
+                  <stop offset="40%" stop-color="#80ccff" stop-opacity="0.8" />
+                  <stop offset="100%" stop-color="#050302" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+              <circle cx="50" cy="50" r="35" fill="url(#soulGlow)" />
+              <path d="M50,25 C35,45 65,55 50,75 C35,55 65,45 50,25 Z" fill="#ffffff" opacity="0.4" />
+            </svg>
+          </div>
+          <h3>Souls</h3>
+          <p>The universal currency and life energy extracted from fallen victims [citation:6]. Required for level progression and weapon ascension, souls represent the burden and struggle of the Undead journey [citation:6].</p>
+        </div>
+
+        <!-- Estus Flask -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <path d="M40,25 L60,25 L62,35 L65,35 L68,80 C68,85 32,85 32,80 L35,35 L38,35 Z" fill="none" stroke="var(--gold)" stroke-width="2"/>
+              <path d="M35,50 L65,50 L68,80 C68,85 32,85 32,80 Z" fill="var(--fire-1)" opacity="0.4"/>
+              <circle cx="50" cy="60" r="5" fill="var(--fire-1)" opacity="0.8" filter="url(#glow)"/>
+            </svg>
+          </div>
+          <h3>Estus Flask</h3>
+          <p>The lifeblood of every Undead adventurer. Filled with the warmth of bonfires, this flask restores vitality when all hope seems lost. Its strength grows with each Kindling.</p>
+        </div>
+
+        <!-- Homeward Bone -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <ellipse cx="50" cy="50" rx="20" ry="25" fill="none" stroke="var(--gold)" stroke-width="2"/>
+              <path d="M50,25 L50,75" stroke="var(--gold)" stroke-width="1.5" opacity="0.4"/>
+              <path d="M35,40 Q50,30 65,40" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity="0.6"/>
+              <circle cx="50" cy="50" r="4" fill="var(--gold)" opacity="0.5"/>
+            </svg>
+          </div>
+          <h3>Homeward Bone</h3>
+          <p>A petrified bone imbued with memories of home. When used, teleports the bearer to the last bonfire rested at — a lifeline when venturing too deep into danger.</p>
+        </div>
+
+        <!-- Titanite Shard -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <polygon points="50,15 70,35 65,70 35,70 30,35" fill="none" stroke="var(--gold)" stroke-width="2"/>
+              <polygon points="50,25 62,40 58,60 42,60 38,40" fill="var(--gold)" opacity="0.2"/>
+              <path d="M50,20 L50,65" stroke="var(--gold)" stroke-width="1" opacity="0.4"/>
+            </svg>
+          </div>
+          <h3>Titanite Shard</h3>
+          <p>A rare geologic fragment essential for weapon and armor reinforcement. Without these shards, even the mightiest blades remain dull and ineffective against Lordran's horrors.</p>
+        </div>
+
+        <!-- Covenant of Artorias -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="30" fill="none" stroke="var(--gold)" stroke-width="2"/>
+              <circle cx="50" cy="50" r="20" fill="none" stroke="var(--gold)" stroke-width="1" opacity="0.4"/>
+              <path d="M35,50 Q50,30 65,50 Q50,70 35,50" fill="var(--gold)" opacity="0.15"/>
+              <path d="M50,30 L50,70 M30,50 L70,50" stroke="var(--gold)" stroke-width="1.5" opacity="0.5"/>
+            </svg>
+          </div>
+          <h3>Covenant of Artorias</h3>
+          <p>A sacred ring bestowed by the knight Artorias. It grants passage through the Abyss — the only protection against the corrosive dark that consumes all who enter without it.</p>
+        </div>
+
+        <!-- Ring of Favor and Protection -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="25" fill="none" stroke="var(--gold)" stroke-width="3"/>
+              <circle cx="50" cy="50" r="18" fill="none" stroke="var(--gold)" stroke-width="1" opacity="0.3"/>
+              <circle cx="50" cy="50" r="6" fill="var(--fire-1)" opacity="0.6"/>
+            </svg>
+          </div>
+          <h3>Ring of Favor and Protection</h3>
+          <p>An ancient ring blessed by the goddess Fina. Boosts HP, stamina, and equip load — but shatters if removed. Once worn, there is no going back.</p>
+        </div>
+
+        <!-- Black Knight Halberd -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <line x1="50" y1="15" x2="50" y2="85" stroke="var(--gold)" stroke-width="3"/>
+              <path d="M35,20 L50,10 L65,20 L55,25 L50,15 L45,25 Z" fill="var(--gold)" opacity="0.4"/>
+              <circle cx="50" cy="50" r="4" fill="var(--gold)" opacity="0.5"/>
+            </svg>
+          </div>
+          <h3>Black Knight Halberd</h3>
+          <p>A massive polearm wielded by the Black Knights. Its sweeping attacks cleave through multiple foes. Favored by strength builds for its devastating reach.</p>
+        </div>
+
+        <!-- Great Combustion -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="20" fill="var(--fire-1)" opacity="0.3"/>
+              <circle cx="50" cy="50" r="12" fill="var(--fire-2)" opacity="0.5"/>
+              <circle cx="50" cy="50" r="5" fill="var(--fire-3)" opacity="0.8"/>
+              <path d="M50,25 L55,45 L50,35 L45,45 Z" fill="var(--fire-1)" opacity="0.6"/>
+            </svg>
+          </div>
+          <h3>Great Combustion</h3>
+          <p>A powerful pyromancy that erupts a massive burst of flame at close range. The preferred spell of pyromancers who favor aggression over subtlety.</p>
+        </div>
+
+        <!-- Havel's Ring -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="28" fill="none" stroke="var(--gold)" stroke-width="4"/>
+              <path d="M35,50 L42,42 L50,50 L58,42 L65,50" fill="none" stroke="var(--gold)" stroke-width="2"/>
+              <circle cx="50" cy="60" r="5" fill="var(--gold)" opacity="0.4"/>
+            </svg>
+          </div>
+          <h3>Havel's Ring</h3>
+          <p>Named after Havel the Rock, this ring greatly increases equip load. It allows warriors to wear the heaviest armor while maintaining mobility.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STARTING GIFTS -->
+  <section id="guide" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><rect x="4" y="10" width="16" height="11" rx="1" fill="none" stroke="var(--gold)" stroke-width="1.5"/><path d="M4,10 L12,4 L20,10" fill="none" stroke="var(--gold)" stroke-width="1.5"/><line x1="12" y1="10" x2="12" y2="21" stroke="var(--gold)" stroke-width="1"/></svg> Choose Your Gift</h2>
+      <p class="section-subtitle">— every journey begins with a choice —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <p style="text-align: center; max-width: 650px; margin: 0 auto 3.5rem auto;">
+        Before walking into the cursed land, select a key starting item. Choose carefully, as these ancient tools can heavily influence your trajectory [citation:5].
+      </p>
+
+      <div class="gift-grid" id="gifts-container">
+        <!-- Loaded dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Scroll to Top -->
+  <button id="scroll-top" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <!-- Easter Egg Tracker -->
+  <div id="egg-tracker" class="egg-tracker">
+    <div class="egg-tracker-toggle" id="egg-tracker-toggle">
+      <span class="egg-icon">🏆</span>
+      <span class="egg-count" id="egg-count">0/13</span>
+    </div>
+    <div class="egg-tracker-panel" id="egg-tracker-panel">
+      <div class="egg-panel-title">Secrets Found</div>
+      <div class="egg-panel-list" id="egg-panel-list"></div>
+    </div>
+  </div>
+
+  <!-- Timeline Section -->
+  <section id="timeline" class="reveal timeline-section">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><path d="M12,2 L12,22 M2,12 L22,12" stroke="var(--gold)" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3" fill="var(--gold)" opacity="0.5"/></svg> The Timeline of Lordran</h2>
+      <p class="section-subtitle">— from ancient darkness to the age of fire —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+
+        <div class="timeline-event" data-event="0">
+          <div class="timeline-dot"></div>
+          <div class="timeline-event-age">Age of Ancients</div>
+          <div class="timeline-event-title">The World Before Fire</div>
+          <div class="timeline-event-desc">In the beginning, there was only gray. The world was unformed, shrouded by fog. A land of gray crags, Archtrees, and Everlasting Dragons. There was no life, no death, no light, no dark — only the eternal gray.</div>
+        </div>
+
+        <div class="timeline-event" data-event="1">
+          <div class="timeline-dot"></div>
+          <div class="timeline-event-age">The First Flame</div>
+          <div class="timeline-event-title">Fire Awakens Disparity</div>
+          <div class="timeline-event-desc">Then there was Fire, and with it came Disparity. Heat and cold, life and death, and of course... Light and Dark. From the Dark, They came, and found the Souls of Lords within the flame.</div>
+        </div>
+
+        <div class="timeline-event" data-event="2">
+          <div class="timeline-dot"></div>
+          <div class="timeline-event-age">The Dragon Wars</div>
+          <div class="timeline-event-title">Lords Crush the Everlasting Dragons</div>
+          <div class="timeline-event-desc">Gwyn and his knights waged war against the dragons. With Seath's betrayal exposing their weakness to lightning, and Nito's plague of death, the lords crushed the immortal dragons to rule the world.</div>
+        </div>
+
+        <div class="timeline-event" data-event="3">
+          <div class="timeline-dot"></div>
+          <div class="timeline-event-age">Age of Fire</div>
+          <div class="timeline-event-title">The Golden Age of Gods</div>
+          <div class="timeline-event-desc">The Age of Fire began. Gwyn ruled from Anor Londo, the Witch of Izalith practiced her pyromancy, Nito slumbered in death, and the Furtive Pygmy waited in shadow. The world flourished under the gods' reign.</div>
+        </div>
+
+        <div class="timeline-event" data-event="4">
+          <div class="timeline-dot"></div>
+          <div class="timeline-event-age">The Fading</div>
+          <div class="timeline-event-title">The First Flame Wanes</div>
+          <div class="timeline-event-desc">The First Flame began to fade. Light receded and the dark took dominion. Gwyn committed the ultimate sin by sacrificing himself to link the fire, cursing humanity to cycles of hollowing.</div>
+        </div>
+
+        <div class="timeline-event" data-event="5">
+          <div class="timeline-dot"></div>
+          <div class="timeline-event-age">The Curse</div>
+          <div class="timeline-event-title">The Undead Curse Spreads</div>
+          <div class="timeline-event-desc">The Darksign branded humanity, binding them to the bonfires. Those who died returned, but each time they lost more of themselves. The Undead Curse spread across the land, driving men to madness.</div>
+        </div>
+
+        <div class="timeline-event" data-event="6">
+          <div class="timeline-dot"></div>
+          <div class="timeline-event-age">The Prophecy</div>
+          <div class="timeline-event-title">The Chosen Undead Rises</div>
+          <div class="timeline-event-desc">A prophecy was born: an undead, unhollowed, would ring the Bells of Awakening, collect the Lord Souls, and either link the fire or usher in the Age of Dark. Your journey begins in the Northern Undead Asylum.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dark Souls Quotes Section -->
+  <section id="quotes" class="reveal">
+    <div class="container">
+      <div class="quotes-box">
+        <div class="quotes-icon">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" opacity="0.3">
+            <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
+          </svg>
+        </div>
+        <div id="rotating-quote" class="rotating-quote"></div>
+        <div id="quote-author" class="quote-author"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Build Calculator Section -->
+  <section id="builds" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><path d="M12,2 L14,18 L12,22 L10,18 Z" fill="var(--gold)" opacity="0.8"/><path d="M8,6 L16,6" stroke="var(--gold)" stroke-width="2" fill="none"/></svg> Forge Your Legend</h2>
+      <p class="section-subtitle">— craft your perfect build —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <div class="build-calculator">
+        <div class="build-class-select">
+          <label class="build-label">Starting Class</label>
+          <select id="build-class" class="build-select">
+            <option value="warrior">Warrior</option>
+            <option value="knight">Knight</option>
+            <option value="wanderer">Wanderer</option>
+            <option value="thief">Thief</option>
+            <option value="bandit">Bandit</option>
+            <option value="hunter">Hunter</option>
+            <option value="sorcerer">Sorcerer</option>
+            <option value="pyromancer">Pyromancer</option>
+            <option value="cleric">Cleric</option>
+          </select>
+        </div>
+        <div class="build-stats" id="build-stats"></div>
+        <div class="build-summary" id="build-summary"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weapons Section -->
+  <section id="weapons" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><path d="M12,2 L14,18 L12,22 L10,18 Z" fill="var(--gold)" opacity="0.8"/><path d="M8,6 L16,6" stroke="var(--gold)" stroke-width="2" fill="none"/></svg> Armaments of Lordran</h2>
+      <p class="section-subtitle">— weapons forged in fire and shadow —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <div class="weapon-controls">
+        <input type="text" id="weapon-search" class="boss-search" placeholder="Search weapons...">
+        <div class="filter-tabs">
+          <button class="tab-btn active" data-weapon-filter="all">All</button>
+          <button class="tab-btn" data-weapon-filter="sword">Swords</button>
+          <button class="tab-btn" data-weapon-filter="axe">Axes</button>
+          <button class="tab-btn" data-weapon-filter="spear">Spears</button>
+          <button class="tab-btn" data-weapon-filter="bow">Bows</button>
+          <button class="tab-btn" data-weapon-filter="magic">Magic</button>
+        </div>
+      </div>
+      <div class="weapon-grid" id="weapon-container"></div>
+    </div>
+  </section>
+
+  <!-- Armor Section -->
+  <section id="armor" class="reveal">
+    <div class="container">
+      <h2><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align: -4px; margin-right: 6px;"><path d="M4,4 L10,4 L12,2 L14,4 L20,4 L20,14 L14,14 L12,22 L10,14 L4,14 Z" fill="none" stroke="var(--gold)" stroke-width="1.5"/><circle cx="12" cy="9" r="2" fill="var(--gold)" opacity="0.6"/></svg> Armor of the Fallen</h2>
+      <p class="section-subtitle">— protection worn by the brave and the dead —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <div class="armor-controls">
+        <input type="text" id="armor-search" class="boss-search" placeholder="Search armor...">
+        <div class="filter-tabs">
+          <button class="tab-btn active" data-armor-filter="all">All</button>
+          <button class="tab-btn" data-armor-filter="head">Head</button>
+          <button class="tab-btn" data-armor-filter="chest">Chest</button>
+          <button class="tab-btn" data-armor-filter="hands">Hands</button>
+          <button class="tab-btn" data-armor-filter="legs">Legs</button>
+        </div>
+      </div>
+      <div class="armor-grid" id="armor-container"></div>
+    </div>
+  </section>
+
+  <!-- DEEP FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="praise-sun">“Long May The Sunshine”</div>
+      
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#lore">Lore</a>
+        <a href="#characters">Characters</a>
+        <a href="#locations">Locations</a>
+        <a href="#bosses">Bosses</a>
+        <a href="#covenants">Covenants</a>
+        <a href="#guide">Guide</a>
+      </div>
+
+      <div class="copyright">
+        &copy; 2026 — Lordran Chronicles <span class="pulsing-star"><svg viewBox="0 0 16 16" width="12" height="12" style="vertical-align: -1px;"><circle cx="8" cy="8" r="2.5" fill="var(--fire-1)"/><circle cx="8" cy="8" r="5" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.6"/></svg></span> Defend the Flame.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Global Search Overlay -->
+  <div id="search-overlay" class="search-overlay">
+    <div class="search-overlay-content">
+      <div class="search-overlay-header">
+        <h3 style="font-family:var(--font-ui);color:var(--gold);letter-spacing:2px;font-size:1rem">Search the Archives</h3>
+        <button id="search-close" aria-label="Close search" style="background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:1.5rem;padding:0.5rem">✕</button>
+      </div>
+      <input type="text" id="global-search-input" class="global-search-input" placeholder="Search characters, bosses, locations, items...">
+      <div id="global-search-results" class="global-search-results"></div>
+      <div class="search-overlay-hint">
+        <kbd>Esc</kbd> to close
+      </div>
+    </div>
+  </div>
+
+  <!-- Boss Comparison Modal -->
+  <div id="compare-overlay" class="compare-overlay">
+    <div class="compare-content">
+      <button id="compare-close" aria-label="Close comparison" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:1.5rem;z-index:10">✕</button>
+      <div class="compare-header">
+        <div class="compare-title">Boss Comparison</div>
+      </div>
+      <div class="compare-select">
+        <select id="compare-boss-1" aria-label="Select first boss"></select>
+        <select id="compare-boss-2" aria-label="Select second boss"></select>
+      </div>
+      <div class="compare-grid" id="compare-grid"></div>
+    </div>
+  </div>
+
+  <!-- You Died Easter Egg -->
+  <div id="you-died-overlay" class="you-died-overlay">
+    <div class="you-died-text">YOU DIED</div>
+  </div>
+
+  <!-- Ambient Particles Container -->
+  <div class="ambient-particles" id="ambient-particles"></div>
+
+  <!-- Character Detail Modal -->
+  <div id="character-modal" class="character-modal">
+    <div class="character-modal-content">
+      <button id="modal-close" aria-label="Close modal" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:1.5rem;z-index:10">✕</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

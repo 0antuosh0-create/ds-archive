@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Souls — Chronicles of Lordran (Definitive Edition)</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    /* --------------------------------------------------
+       CSS CUSTOM PROPERTIES & CORE ARCHITECTURE
+       -------------------------------------------------- */
+    :root {
+      --bg-dark: #050302;
+      --bg-alt: #0a0806;
+      --bg-card: #0e0b09;
+      --bg-card-hover: #15110e;
+      --text-primary: #c4b5a5;
+      --text-secondary: #8a7a6a;
+      --gold: #d4af37;
+      --gold-dim: #8c732b;
+      --gold-glow: rgba(212, 175, 55, 0.15);
+      --fire-1: #ff6633;
+      --fire-2: #ff8833;
+      --fire-3: #ffaa44;
+      --fire-glow: rgba(255, 102, 51, 0.2);
+      --font-title: 'Cinzel Decorative', cursive;
+      --font-ui: 'Cinzel', serif;
+      --font-body: 'IM Fell English', serif;
+      --shadow-deep: 0 15px 35px rgba(0, 0, 0, 0.95);
+      --transition-gothic: cubic-bezier(0.25, 0.8, 0.25, 1);
+      --transition-fast: 0.25s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* Weathered Stone Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f1a16;
+      border: 2px solid var(--bg-dark);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-dim);
+    }
+
+    /* Ambient Film-Grain Noise Layer */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    body {
+      overflow-x: hidden;
+      background-color: var(--bg-dark);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Headings Style */
+    h1, h2, h3, h4 {
+      font-family: var(--font-title);
+      color: var(--gold);
+      text-shadow: 0 0 12px var(--gold-glow);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    p {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    /* UI Subtitles */
+    .section-subtitle {
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-top: 0.5rem;
+    }
+
+    /* Ornate Divider */
+    .ornate-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2rem auto;
+      width: 100%;
+      max-width: 450px;
+    }
+    .ornate-divider .line {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(212,175,55,0) 0%, var(--gold-dim) 50%, rgba(212,175,55,0) 100%);
+      flex-grow: 1;
+    }
+    .ornate-divider svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--gold);
+      margin: 0 15px;
+      filter: drop-shadow(0 0 5px var(--gold-glow));
+    }
+
+    /* Section defaults */
+    section {
+      padding: 7rem 0;
+      position: relative;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.04);
+    }
+
+    /* Intersection Observer Reveals */
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 1.2s var(--transition-gothic), transform 1.2s var(--transition-gothic);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --------------------------------------------------
+       SECTION 1: GLASSMORPHIC HEADER
+       -------------------------------------------------- */
+    header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 85px;
+      background: rgba(5, 3, 2, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      transition: var(--transition-fast);
+    }
+    header.scrolled {
+      height: 70px;
+      background: rgba(5, 3, 2, 0.95);
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      gap: 14px;
+    }
+    .logo svg {
+      width: 36px;
+      height: 36px;
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .logo-main {
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      color: var(--gold);
+      line-height: 1.1;
+      letter-spacing: 1px;
+    }
+    .logo-sub {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      letter-spacing: 1.5px;
+    }
+    nav {
+      display: flex;
+      gap: 1.4rem;
+    }
+    nav a {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: 1.5px;
+      position: relative;
+      padding: 0.4rem 0;
+      transition: var(--transition-fast);
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background-color: var(--gold);
+      transition: var(--transition-fast);
+    }
+    nav a:hover {
+      color: var(--gold);
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Mobile Hamburger Trigger */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: var(--gold);
+      transition: var(--transition-fast);
+    }
+
+    /* --------------------------------------------------
+       SECTION 2: HERO SECTION
+       -------------------------------------------------- */
+    #home {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      padding: 0;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      max-width: 650px;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .hero-subtitle {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      letter-spacing: 5px;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    .hero-title {
+      font-size: 3.8rem;
+      text-align: left;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    /* Animated Typewriter Box */
+    .typewriter-box {
+      font-family: var(--font-body);
+      font-size: 1.35rem;
+      font-style: italic;
+      height: 45px;
+      margin-bottom: 2rem;
+      color: var(--text-primary);
+    }
+    .typewriter-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1rem;
+      background-color: var(--gold);
+      margin-left: 4px;
+      animation: blink 0.9s steps(2, start) infinite;
+    }
+    @keyframes blink {
+      to { visibility: hidden; }
+    }
+    /* Ember Button CTA */
+    .cta-button {
+      display: inline-block;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.9rem 1.8rem;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-fast);
+      box-shadow: 0 0 15px rgba(212,175,55,0.04);
+    }
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(212,175,55,0.08), transparent);
+      transition: 0.6s ease;
+    }
+    .cta-button:hover {
+      background: var(--gold);
+      color: var(--bg-dark);
+      box-shadow: 0 0 25px var(--gold-glow);
+    }
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    /* Swirling Fog Generator */
+    .fog-wrapper {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .fog-layer {
+      position: absolute;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(15,12,10,0.2) 0%, rgba(5,3,2,0) 70%);
+      opacity: 0.35;
+      animation: drift 48s linear infinite;
+    }
+    .fog-layer-2 {
+      position: absolute;
+      width: 230%; height: 230%;
+      background: radial-gradient(circle, rgba(20,17,14,0.22) 0%, rgba(5,3,2,0) 65%);
+      opacity: 0.28;
+      animation: drift 70s linear infinite reverse;
+      animation-delay: -10s;
+    }
+    @keyframes drift {
+      0% { transform: translate(-25%, -25%) rotate(0deg); }
+      50% { transform: translate(0%, 0%) rotate(180deg); }
+      100% { transform: translate(-25%, -25%) rotate(360deg); }
+    }
+
+    /* --------------------------------------------------
+       BONFIRE METICULOUS VISUAL
+       -------------------------------------------------- */
+    .bonfire-container {
+      position: absolute;
+      bottom: -15px;
+      right: 4%;
+      width: 440px;
+      height: 520px;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .bonfire-svg {
+      width: 100%;
+      height: 100%;
+    }
+    /* Dynamic floating particles */
+    .ember-particle {
+      position: absolute;
+      background: radial-gradient(circle, var(--fire-3) 20%, var(--fire-1) 80%);
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(0.4px);
+      box-shadow: 0 0 10px var(--fire-1);
+    }
+    @keyframes riseAndFade {
+      0% {
+        transform: translateY(0) scale(1) translateX(0);
+        opacity: 0.95;
+      }
+      50% {
+        transform: translateY(-110px) scale(1.3) translateX(var(--drift));
+      }
+      100% {
+        transform: translateY(-260px) scale(0) translateX(var(--drift-end));
+        opacity: 0;
+      }
+    }
+    /* Flickering properties */
+    @keyframes bonfire-flicker {
+      0%, 100% { filter: drop-shadow(0 0 35px rgba(255, 102, 51, 0.4)); }
+      50% { filter: drop-shadow(0 0 52px rgba(255, 102, 51, 0.62)); }
+    }
+    @keyframes flame-sway-1 {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(2.5deg) scale(1.06) skewX(1deg); }
+    }
+    @keyframes flame-sway-2 {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(-3deg) scale(0.94) skewX(-1.5deg); }
+    }
+    .flame-glow {
+      animation: bonfire-flicker 3.8s ease-in-out infinite;
+    }
+    .flame-layer-1 {
+      transform-origin: 200px 420px;
+      animation: flame-sway-1 3.2s ease-in-out infinite;
+    }
+    .flame-layer-2 {
+      transform-origin: 200px 420px;
+      animation: flame-sway-2 4.2s ease-in-out infinite;
+    }
+
+    /* --------------------------------------------------
+       SECTION 3: THE LORE CARDS
+       -------------------------------------------------- */
+    #lore {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-alt) 100%);
+    }
+    .lore-intro {
+      max-width: 850px;
+      margin: 0 auto 4rem auto;
+      text-align: center;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      font-style: italic;
+      line-height: 1.7;
+    }
+    .lore-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    .lore-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.08);
+      padding: 2.2rem 1.8rem;
+      text-align: center;
+      transition: var(--transition-gothic);
+      position: relative;
+    }
+    .lore-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border: 1px solid transparent;
+      transition: var(--transition-gothic);
+      pointer-events: none;
+    }
+    .lore-card:hover {
+      background: var(--bg-card-hover);
+      box-shadow: var(--shadow-deep), 0 0 15px var(--gold-glow);
+    }
+    .lore-card:hover::before {
+      border-color: var(--gold-dim);
+    }
+    .lore-icon {
+      width: 65px;
+      height: 65px;
+      margin: 0 auto 1.5rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lore-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+    .lore-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .lore-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------
+       SECTION 4: INTERACTIVE CHARACTERS SYSTEM
+       -------------------------------------------------- */
+    #characters {
+      background-color: var(--bg-dark);
+    }
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 3.5rem;
+    }
+    .tab-btn {
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      color: var(--text-secondary);
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      padding: 0.6rem 1.3rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .tab-btn.active, .tab-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+      text-shadow: 0 0 6px var(--gold-glow);
+    }
+    .character-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.8rem;
+      min-height: 400px;
+    }
+    .char-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 175, 55, 0.06);
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition-gothic);
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+    }
+    .char-card.hidden {
+      display: none;
+    }
+    .char-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold-dim);
+      box-shadow: var(--shadow-deep), 0 0 10px var(--gold-glow);
+    }
+    .char-role {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+    .char-name {
+      font-size: 1.3rem;
+      text-align: left;
+      color: #dfd4c6;
+      margin-bottom: 0.8rem;
+    }
+    .char-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------
+       SECTION 5: CURSED LANDS (ANCIENT SPLIT PANELS)
+       -------------------------------------------------- */
+    #locations {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-alt) 100%);
+    }
+    .locations-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2.5rem;
+      margin-top: 3rem;
+      border: 1px solid rgba(212,175,55,0.08);
+      background: rgba(5,3,2,0.45);
+      padding: 1.2rem;
+    }
+    .location-list-pane {
+      max-height: 520px;
+      overflow-y: auto;
+      border-right: 1px solid rgba(212,175,55,0.08);
+      padding-right: 0.8rem;
+    }
+    .location-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 0.7rem 0.9rem;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: var(--transition-fast);
+      letter-spacing: 1px;
+    }
+    .location-btn.active, .location-btn:hover {
+      color: var(--gold);
+      border-left-color: var(--gold);
+      background: rgba(212, 175, 55, 0.04);
+    }
+    .location-detail-pane {
+      padding: 1rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 440px;
+      position: relative;
+    }
+    .detail-container {
+      animation: fadeIn 0.5s var(--transition-gothic) forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .detail-name {
+      font-size: 2.1rem;
+      text-align: left;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(212,175,55,0.15);
+      padding-bottom: 0.5rem;
+    }
+    .detail-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.8rem;
+    }
+    .meta-box {
+      background: rgba(0, 0, 0, 0.45);
+      padding: 1rem;
+      border: 1px solid rgba(212,175,55,0.04);
+    }
+    .meta-title {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      margin-bottom: 0.2rem;
+      text-transform: uppercase;
+    }
+    .meta-content {
+      font-size: 0.85rem;
+      color: var(--text-primary);
+    }
+
+    /* --------------------------------------------------
+       SECTION 6: LORDS OF CINDER BESTIARY
+       -------------------------------------------------- */
+    #bosses {
+      background-color: var(--bg-dark);
+    }
+    .boss-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .boss-search {
+      flex-grow: 1;
+      max-width: 380px;
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.15);
+      padding: 0.7rem 1.1rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: var(--transition-fast);
+    }
+    .boss-search:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+    .boss-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.8rem;
+    }
+    .boss-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 175, 55, 0.05);
+      padding: 2rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition-gothic);
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+    }
+    .boss-card.hidden {
+      display: none;
+    }
+    .boss-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold-dim);
+      box-shadow: var(--shadow-deep), 0 0 12px var(--gold-glow);
+    }
+    .boss-header {
+      border-bottom: 1px solid rgba(212,175,55,0.08);
+      padding-bottom: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .boss-name {
+      font-size: 1.4rem;
+      text-align: left;
+      line-height: 1.25;
+    }
+    .boss-badge {
+      display: inline-block;
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      padding: 1px 7px;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 0.4rem;
+      letter-spacing: 1px;
+    }
+    .boss-row {
+      margin-top: 0.7rem;
+    }
+    .boss-label {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .boss-val {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+
+    /* --------------------------------------------------
+       SECTION 7: COVENANTS GRID
+       -------------------------------------------------- */
+    #covenants {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-alt) 100%);
+    }
+    .covenant-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 1.8rem;
+    }
+    .covenant-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.06);
+      padding: 2rem 1.8rem;
+      transition: var(--transition-gothic);
+      position: relative;
+    }
+    .covenant-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold);
+      box-shadow: var(--shadow-deep), 0 0 15px var(--gold-glow);
+    }
+    .covenant-sigil {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 1rem;
+      fill: var(--gold);
+    }
+    .covenant-card h3 {
+      text-align: left;
+      font-size: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+    .covenant-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------
+       SECTION 8: KEY ITEMS & HUMANITY
+       -------------------------------------------------- */
+    #key-items {
+      background-color: var(--bg-dark);
+    }
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .item-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.05);
+      padding: 2.2rem 1.8rem;
+      text-align: center;
+      transition: var(--transition-gothic);
+    }
+    .item-card:hover {
+      background: var(--bg-card-hover);
+      box-shadow: var(--shadow-deep), 0 0 15px var(--gold-glow);
+    }
+    .item-svg {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem auto;
+    }
+    .item-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.8rem;
+    }
+    .item-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------
+       SECTION 9: STARTING GIFTS (INVENTORY PANELS)
+       -------------------------------------------------- */
+    #guide {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-alt) 100%);
+    }
+    .gift-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.8rem;
+    }
+    .gift-slot {
+      background: var(--bg-card);
+      border: 1px solid rgba(212,175,55,0.08);
+      padding: 1.8rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-gothic);
+    }
+    .gift-slot:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold);
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+    .gift-icon {
+      width: 55px;
+      height: 55px;
+      margin: 0 auto 1.2rem auto;
+    }
+    .gift-title {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      color: #dfd4c6;
+      margin-bottom: 0.6rem;
+    }
+    .gift-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    /* --------------------------------------------------
+       SECTION 10: FOOTER
+       -------------------------------------------------- */
+    footer {
+      background-color: #030202;
+      border-top: 1px solid rgba(212, 175, 55, 0.12);
+      padding: 3.5rem 0 2rem 0;
+      text-align: center;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.8rem;
+      margin-bottom: 1.8rem;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 2.5px;
+      transition: var(--transition-fast);
+    }
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+    .praise-sun {
+      font-family: var(--font-title);
+      font-size: 1.7rem;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      text-shadow: 0 0 10px var(--gold-glow);
+    }
+    .copyright {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      letter-spacing: 1.2px;
+    }
+    .pulsing-star {
+      display: inline-block;
+      color: var(--gold);
+      animation: heart-pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes heart-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.35); opacity: 1; }
+    }
+
+    /* --------------------------------------------------
+       RESPONSIVE ADAPTABILITY
+       -------------------------------------------------- */
+    @media (max-width: 1100px) {
+      .bonfire-container {
+        width: 330px;
+        height: 420px;
+        right: 2%;
+      }
+      .hero-title {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 950px) {
+      .locations-layout {
+        grid-template-columns: 1fr;
+      }
+      .location-list-pane {
+        border-right: none;
+        border-bottom: 1px solid rgba(212,175,55,0.12);
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        max-height: none;
+        padding-bottom: 0.5rem;
+      }
+      .location-btn {
+        display: inline-block;
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        width: auto;
+      }
+      .location-btn.active {
+        border-bottom-color: var(--gold);
+      }
+      .location-detail-pane {
+        min-height: auto;
+        padding: 1.2rem 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: flex;
+        z-index: 10002;
+      }
+      nav {
+        position: fixed;
+        top: 0; right: -100%;
+        width: 75%;
+        height: 100vh;
+        background: rgba(5, 3, 2, 0.98);
+        border-left: 1px solid var(--gold-dim);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.8rem;
+        transition: var(--transition-gothic);
+        z-index: 10001;
+      }
+      nav.open {
+        right: 0;
+      }
+      header.mobile-menu-active .nav-toggle span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      header.mobile-menu-active .nav-toggle span:nth-child(2) {
+        opacity: 0;
+      }
+      header.mobile-menu-active .nav-toggle span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+
+      #home {
+        text-align: center;
+        padding-top: 80px;
+      }
+      .hero-content {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .hero-title {
+        font-size: 2.3rem;
+        text-align: center;
+      }
+      .bonfire-container {
+        position: relative;
+        width: 220px;
+        height: 280px;
+        margin: 1.5rem auto 0 auto;
+        right: auto;
+        bottom: auto;
+      }
+
+      section {
+        padding: 4.5rem 0;
+      }
+      .boss-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .boss-search {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress Indicator -->
+  <div id="progress-bar"></div>
+  <style>
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--gold);
+      z-index: 99999;
+      width: 0;
+      transition: width 0.1s;
+    }
+  </style>
+
+  <!-- FIXED GLASSMORPHIC HEADER -->
+  <header id="main-header">
+    <div class="container header-container">
+      <a href="#home" class="logo">
+        <!-- Darksign inline SVG -->
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="60%" stop-color="#ff4500" stop-opacity="0.9" />
+              <stop offset="85%" stop-color="#ff8c00" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="#050302" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <circle cx="50" cy="50" r="32" fill="none" stroke="url(#ringGlow)" stroke-width="6" filter="drop-shadow(0 0 8px #ff4500)" />
+          <path d="M50,18 C45,28 55,24 50,82" fill="none" stroke="#2a1408" stroke-width="2.5" />
+        </svg>
+        <div class="logo-text">
+          <span class="logo-main">DARK SOULS</span>
+          <span class="logo-sub">⚔ CHRONICLES OF LORDRAN ⚔</span>
+        </div>
+      </a>
+      
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav id="nav-menu">
+        <a href="#home">Home</a>
+        <a href="#lore">Lore</a>
+        <a href="#characters">Characters</a>
+        <a href="#locations">Locations</a>
+        <a href="#bosses">Bosses</a>
+        <a href="#covenants">Covenants</a>
+        <a href="#guide">Guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- IMMERSIVE HERO SECTION -->
+  <section id="home">
+    <div class="fog-wrapper">
+      <div class="fog-layer"></div>
+      <div class="fog-layer-2"></div>
+    </div>
+    
+    <div class="container" style="position: relative; z-index: 2; height: 100%; display: flex; align-items: center;">
+      <div class="hero-content parallax-box">
+        <span class="hero-subtitle">The First Flame</span>
+        <h1 class="hero-title">Embrace the Dark</h1>
+        
+        <div class="ornate-divider" style="margin: 0 0 1.5rem 0;">
+          <div class="line"></div>
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+          <div class="line"></div>
+        </div>
+
+        <div class="typewriter-box">
+          <span id="typewriter"></span><span class="typewriter-cursor"></span>
+        </div>
+        
+        <a href="#lore" class="cta-button">⟡ Kindle the Fire ⟡</a>
+      </div>
+    </div>
+
+    <!-- EXQUISITE BONFIRE VISUAL -->
+    <div class="bonfire-container">
+      <svg class="bonfire-svg" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="glowBase" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ff4400" stop-opacity="0.35" />
+            <stop offset="100%" stop-color="#050302" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <circle cx="200" cy="420" r="130" fill="url(#glowBase)" class="flame-glow" />
+
+        <!-- Pile of Ash and Skeletons -->
+        <path d="M100,455 C130,425 270,425 300,455 C320,465 80,465 100,455 Z" fill="#0d0908" />
+        <path d="M140,445 C165,410 235,410 260,445 Z" fill="#251b17" />
+        <path d="M160,435 L240,435 C220,410 180,410 160,435 Z" fill="#130e0c" />
+
+        <!-- The Coiled Sword -->
+        <g id="coiled-sword" transform="rotate(-12, 200, 350)">
+          <!-- Iron blade -->
+          <path d="M197,95 L203,95 L203,420 L197,420 Z" fill="#5c4d46" />
+          <!-- Coiled fire-twisted edge details -->
+          <path d="M195,115 L205,120 L195,140 L205,145 L195,165 L205,170 L195,190 L205,195 L195,215 L205,220 L195,240 L205,245 L195,265 L205,270 L195,290 L205,295 L195,315 L205,320 L195,340 L205,345 L195,365 L205,370 L195,390 L205,395" fill="none" stroke="#1f1815" stroke-width="2.2" />
+          <!-- Melted crossguard -->
+          <path d="M182,105 C188,109 212,109 218,105 L212,100 L188,100 Z" fill="#362d29" />
+          <!-- Twisted handle -->
+          <path d="M198,65 L202,65 L202,100 L198,100 Z" fill="#211a17" />
+          <circle cx="200" cy="63" r="4.5" fill="#4d3f3a" />
+        </g>
+
+        <!-- Dynamic Multi-layered Flames -->
+        <g class="flame-glow">
+          <!-- Deep Red Back Layer -->
+          <path class="flame-layer-2" d="M150,430 C100,360 140,200 200,160 C260,200 300,360 250,430 Z" fill="#991f00" opacity="0.45" />
+          <!-- Warm Amber Middle Layer -->
+          <path class="flame-layer-1" d="M165,430 C125,375 155,240 200,200 C245,240 275,375 235,430 Z" fill="#d34e00" opacity="0.8" />
+          <!-- Bright Inner Flame -->
+          <path class="flame-layer-2" d="M180,430 C155,390 175,290 200,260 C225,290 245,390 220,430 Z" fill="#ff9400" opacity="0.9" />
+          <!-- Brilliant Core -->
+          <path class="flame-layer-1" d="M190,430 C182,410 190,340 200,320 C210,340 218,410 210,430 Z" fill="#ffe399" opacity="0.95" />
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- THE LORE CHRONICLE -->
+  <section id="lore" class="reveal">
+    <div class="container">
+      <h2>⚔ The Age of Fire</h2>
+      <p class="section-subtitle">— from the First Flame to the Curse —</p>
+      
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <p class="lore-intro">
+        In the Age of Ancients, the world was unformed, shrouded by fog. A land of gray crags, Archtrees, and Everlasting Dragons. But then there was Fire, and with it came Disparity: Heat and cold, life and death, and of course... Light and Dark. From the Dark, They came, and found the Souls of Lords within the flame... [citation:3]
+      </p>
+
+      <div class="lore-grid">
+        <!-- Card 1 -->
+        <div class="lore-card tilt-box">
+          <div class="lore-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="1.5">
+              <circle cx="50" cy="50" r="40" stroke-opacity="0.2" />
+              <path d="M50,15 C65,35 35,55 50,85 C65,55 35,35 50,15 Z" fill="var(--gold-glow)" />
+            </svg>
+          </div>
+          <h3>The First Flame</h3>
+          <p>The primordial spark that introduced disparity to a gray, static reality. Out of its heat, the Lord Souls materialized, laying down the foundational pillars of light, death, and chaotic flame.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="lore-card tilt-box">
+          <div class="lore-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="1.5">
+              <polygon points="50,15 80,45 80,75 50,85 20,75 20,45" stroke-opacity="0.2" />
+              <path d="M35,45 Q50,20 65,45 T50,80" fill="var(--gold-glow)" />
+            </svg>
+          </div>
+          <h3>The Lords</h3>
+          <p>Gwyn, Nito, the Witch of Izalith, and the Furtive Pygmy seized the immense powers within the Fire. Betrayed by Seath, they crushed the immortal dragons to rule the world [citation:4].</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="lore-card tilt-box">
+          <div class="lore-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="1.5">
+              <circle cx="50" cy="50" r="30" stroke-dasharray="4,4" stroke-opacity="0.3"/>
+              <circle cx="50" cy="50" r="40" />
+              <path d="M50,32 A18,18 0 0,0 32,50" fill="none" stroke-width="2.5" />
+            </svg>
+          </div>
+          <h3>The Fading</h3>
+          <p>As the First Flame wanes, light recedes and the dark takes dominion. Gwyn committed the ultimate sin by sacrifice, attempting to link the fire and cursing humanity to cycles of hollowing.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="lore-card tilt-box">
+          <div class="lore-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="1.5">
+              <circle cx="50" cy="50" r="35" />
+              <circle cx="50" cy="50" r="15" fill="var(--gold-glow)" />
+              <path d="M50,20 L50,80 M20,50 L80,50" stroke-opacity="0.3" />
+            </svg>
+          </div>
+          <h3>The Chosen Undead</h3>
+          <p>An outcast brandished with the curse, prophesied to escape the Asylum. Propelled through a dying kingdom, you are left to choose whether to feed the flame or initiate the age of dark.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEGENDARY SOULS (CHARACTERS) -->
+  <section id="characters" class="reveal">
+    <div class="container">
+      <h2>⚔ Legendary Souls</h2>
+      <p class="section-subtitle">— lords, knights, and outcasts —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="tab-btn active" data-filter="all">All</button>
+        <button class="tab-btn" data-filter="lords">The Lords</button>
+        <button class="tab-btn" data-filter="knights">Knights & Companions</button>
+        <button class="tab-btn" data-filter="firekeepers">Firekeepers & Covenants</button>
+        <button class="tab-btn" data-filter="merchants">Merchants & Blacksmiths</button>
+        <button class="tab-btn" data-filter="others">Additional NPCs</button>
+      </div>
+
+      <!-- Character Dynamic Grid -->
+      <div class="character-grid" id="character-container">
+        <!-- Content dynamically populated by Javascript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CURSED LANDS (LOCATIONS MAP) -->
+  <section id="locations" class="reveal">
+    <div class="container">
+      <h2>🗺 Cursed Lands</h2>
+      <p class="section-subtitle">— where the fate of Lordran was sealed —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <div class="locations-layout">
+        <!-- Scrollable Navigation Sidebar -->
+        <div class="location-list-pane" id="location-list">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Detail Panel -->
+        <div class="location-detail-pane" id="location-detail">
+          <!-- Refreshed via select triggers -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LORDS OF CINDER (BOSS BESTIARY) -->
+  <section id="bosses" class="reveal">
+    <div class="container">
+      <h2>⚔ Lords of Cinder</h2>
+      <p class="section-subtitle">— the true test of the Dark Souls experience —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem auto;">
+        Bosses aren't your typical videogame boss fodder. They're devoid of obvious weak spots, attack relentlessly, and require cunning, expert strategy, and a lot of patience to defeat [citation:1].
+      </p>
+
+      <!-- Bestiary Search and Filter -->
+      <div class="boss-controls">
+        <input type="text" id="boss-search" class="boss-search" placeholder="Search boss, location, or drops...">
+        <div class="filter-tabs" style="margin-bottom: 0;">
+          <button class="tab-btn active" data-boss-filter="all">All</button>
+          <button class="tab-btn" data-boss-filter="main">Main Game</button>
+          <button class="tab-btn" data-boss-filter="dlc">DLC</button>
+        </div>
+      </div>
+
+      <!-- Boss Grid -->
+      <div class="boss-grid" id="boss-container">
+        <!-- Loaded dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- COVENANTS (FACTIONS OF LORDRAN) -->
+  <section id="covenants" class="reveal">
+    <div class="container">
+      <h2>⚔ Covenants</h2>
+      <p class="section-subtitle">— the factions that shape the fate of Lordran —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <p style="text-align: center; max-width: 800px; margin: 0 auto 3.5rem auto;">
+        Covenants are factions that players can align with, offering unique benefits, items, and multiplayer interactions. Each covenant is deeply rooted in the game's lore and reflects different philosophies and allegiances [citation:4].
+      </p>
+
+      <div class="covenant-grid" id="covenants-container">
+        <!-- Loaded dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY ITEMS & MECHANICS -->
+  <section id="key-items" class="reveal">
+    <div class="container">
+      <h2>🌀 Key Items</h2>
+      <p class="section-subtitle">— the artifacts that define the Undead journey —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <div class="item-grid">
+        <!-- Darksign -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="30" fill="none" stroke="#ff4500" stroke-width="5" filter="drop-shadow(0 0 5px #ff4500)" />
+              <path d="M50,20 C40,40 60,40 50,80" fill="none" stroke="#050302" stroke-width="3" />
+            </svg>
+          </div>
+          <h3>The Darksign</h3>
+          <p>A branding representing the curse of the Undead [citation:2]. It ties humanity directly to bonfires, sending the cursed back to safety at the costly sacrifice of accumulated souls and humanity [citation:2].</p>
+        </div>
+
+        <!-- Humanity -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <path d="M50,15 C20,50 35,85 50,85 C65,85 80,50 50,15 Z" fill="#0c0908" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5" />
+              <!-- Small glowing humanity eyes -->
+              <circle cx="43" cy="60" r="2" fill="#fff" filter="drop-shadow(0 0 2px #fff)"/>
+              <circle cx="57" cy="60" r="2" fill="#fff" filter="drop-shadow(0 0 2px #fff)"/>
+            </svg>
+          </div>
+          <h3>Humanity</h3>
+          <p>Black sprites found deep inside human bosoms [citation:1]. They define core item discovery rates and resistances [citation:1]. Consuming humanity reverts hollowing but risks total loss upon unexpected death [citation:1].</p>
+        </div>
+
+        <!-- Lordvessel -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="2">
+              <path d="M25,30 C25,25 75,25 75,30 L70,65 C70,75 30,75 30,65 Z" fill="var(--gold-glow)"/>
+              <path d="M20,30 L80,30 M30,75 L70,75" stroke-width="3" />
+              <!-- Ornate Handles -->
+              <path d="M22,35 C10,35 15,60 28,62 M78,35 C90,35 85,60 72,62" />
+            </svg>
+          </div>
+          <h3>The Lordvessel</h3>
+          <p>An relic bestowed by Gwynevere, allowing warping between distant bonfires [citation:10]. The vessel is required to gather the Lord Souls to break the sealed gates of the Kiln of the First Flame [citation:3].</p>
+        </div>
+
+        <!-- Souls -->
+        <div class="item-card tilt-box">
+          <div class="item-svg">
+            <svg viewBox="0 0 100 100">
+              <defs>
+                <radialGradient id="soulGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#ffffff" />
+                  <stop offset="40%" stop-color="#80ccff" stop-opacity="0.8" />
+                  <stop offset="100%" stop-color="#050302" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+              <circle cx="50" cy="50" r="35" fill="url(#soulGlow)" />
+              <path d="M50,25 C35,45 65,55 50,75 C35,55 65,45 50,25 Z" fill="#ffffff" opacity="0.4" />
+            </svg>
+          </div>
+          <h3>Souls</h3>
+          <p>The universal currency and life energy extracted from fallen victims [citation:6]. Required for level progression and weapon ascension, souls represent the burden and struggle of the Undead journey [citation:6].</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STARTING GIFTS -->
+  <section id="guide" class="reveal">
+    <div class="container">
+      <h2>🎁 Choose Your Gift</h2>
+      <p class="section-subtitle">— every journey begins with a choice —</p>
+
+      <div class="ornate-divider">
+        <div class="line"></div>
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.5 14h-15L12 6z"/></svg>
+        <div class="line"></div>
+      </div>
+
+      <p style="text-align: center; max-width: 650px; margin: 0 auto 3.5rem auto;">
+        Before walking into the cursed land, select a key starting item. Choose carefully, as these ancient tools can heavily influence your trajectory [citation:5].
+      </p>
+
+      <div class="gift-grid" id="gifts-container">
+        <!-- Loaded dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- DEEP FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="praise-sun">“Praise the Sun!”</div>
+      
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#lore">Lore</a>
+        <a href="#characters">Characters</a>
+        <a href="#locations">Locations</a>
+        <a href="#bosses">Bosses</a>
+        <a href="#covenants">Covenants</a>
+        <a href="#guide">Guide</a>
+      </div>
+
+      <div class="copyright">
+        &copy; 2026 — Lordran Chronicles <span class="pulsing-star">✦</span> Defend the Flame.
+      </div>
+    </div>
+  </footer>
+
+  <!-- --------------------------------------------------
+       JAVASCRIPT: ENGINE & DATABASE
+       -------------------------------------------------- -->
+  <script>
+    /* --------------------------------------------------
+       DATABASES (CHARACTERS, LOCATIONS, BOSSES, COVENANTS, GIFTS)
+       -------------------------------------------------- */
+    const characters = [
+      // Lords
+      { name: "Gwyn, Lord of Sunlight", role: "Lord", desc: "King of the Gods who wielded powerful bolts of lightning to terminate the Everlasting Dragons. Striped his firstborn of status for foolishness, and eventually sacrificed his supreme soul to feed the fading Flame.", cat: "lords" },
+      { name: "Gravelord Nito", role: "Lord", desc: "The First of the Dead, a cosmic entity assembled from thousands of bones. Administers absolute plague and sickness, slumbering deeply within the Tomb of the Giants to oversee the cycle of decay.", cat: "lords" },
+      { name: "Witch of Izalith", role: "Lord", desc: "Mother of Pyromancy who, in her desperation, attempted to recreate the First Flame with a custom soul, warping into the Bed of Chaos and birthing all demonic entities into Lordran.", cat: "lords" },
+      { name: "Seath the Scaleless", role: "Lord", desc: "The treacherous dragon born with no scales. Jealous of his brothers, he betrayed them to Gwyn, establishing his crystalline archives where he eventually lost his mind seeking immortality.", cat: "lords" },
+      { name: "Furtive Pygmy", role: "Lord", desc: "The easily forgotten, ancient ancestor who located the unique Dark Soul within the First Flame. Fragmented his soul to spawn humanity, patiently waiting out the fading flame.", cat: "lords" },
+      
+      // Knights & Companions
+      { name: "Solaire of Astora", role: "Knight", desc: "An incredibly resilient, joyful warrior who became undead by choice to search for his personal sun. Founder and beloved summon of the Sunlight Warriors covenant.", cat: "knights" },
+      { name: "Siegmeyer of Catarina", role: "Knight", desc: "A robust knight wearing onion-shaped armor who constantly stumbles into danger while pursuing adventure, always caught in deep meditation to think of solutions.", cat: "knights" },
+      { name: "Knight Artorias", role: "Knight", desc: "One of Gwyn's top four knights, famous for traversing the Abyss. Sacrificed his shield to safeguard his wolf companion Sif in Oolacile before getting corrupted.", cat: "knights" },
+      { name: "Ornstein & Smough", role: "Knights", desc: "The golden Dragon Slayer and the gigantic executioner, acting as the ultimate twin gatekeepers to safeguard Gwynevere's grand Cathedral in Anor Londo.", cat: "knights" },
+
+      // Firekeepers & Covenants
+      { name: "Anastacia of Astora", role: "Firekeeper", desc: "The mute Firekeeper bound to her cold iron cage at Firelink Shrine. Her tongue was stripped out to prevent her from speaking blasphemy.", cat: "firekeepers" },
+      { name: "Chaos Witch Quelaag", role: "Guardian", desc: "A daughter of Izalith who escaped the demonic transformation of Chaos, leaving her lower body fused to a giant spider. Guards the sister she cherishes.", cat: "firekeepers" },
+      { name: "Quelaag's Sister (The Fair Lady)", role: "Firekeeper", desc: "The blind, terribly weakened Firekeeper of Quelaag's Domain. Swallowed lethal blightpus to relieve her infected subjects of agonizing torment.", cat: "firekeepers" },
+
+      // Merchants, Blacksmiths & NPCs
+      { name: "Big Hat Logan", role: "Sorcerer", desc: "A famous, reclusive sorcerer of Vinheim who wears an oversized hat to isolate himself from distractions. Trapped in Sen's Fortress while chasing raw knowledge.", cat: "merchants" },
+      { name: "Andre of Astora", role: "Blacksmith", desc: "A persistent, ancient blacksmith who crafts and upgrades weapons for hollows inside Undead Parish, keeping himself sane through constant manual work.", cat: "merchants" },
+      { name: "Laurentius of the Great Swamp", role: "Teacher", desc: "A warm, open-hearted pyromancer who welcomes the player as an equal, sharing his flame and lessons after being freed from the Depths.", cat: "merchants" },
+      { name: "Patches the Hyena", role: "Merchant", desc: "A devious rogue who setting traps for greedy clerics and adventurers, begging for absolution when caught before attempting to sell their leftover gear.", cat: "merchants" },
+      { name: "Oswald of Carim", role: "Pardoner", desc: "An unsettling agent of Velka, Goddess of Sin. Stationed in the parish belltower to absolve travelers of their hostile actions for a steep fee.", cat: "merchants" },
+      { name: "Quelana of Izalith", role: "Pyromancer", desc: "The Mother of Pyromancy, who managed to escape her family's disaster. Secretive teacher sitting silently in Blighttown's toxic swamp.", cat: "merchants" },
+
+      // Additional NPCs
+      { name: "Crestfallen Warrior", role: "Outcast", desc: "The cynical, tired knight sitting next to the bonfire at Firelink Shrine. Advises travelers with useful but desperate tips, slowly hollowing.", cat: "others" },
+      { name: "Kingseeker Frampt", role: "Serpent", desc: "A giant primordial serpent who resides in Firelink Shrine. Claims to search for Gwyn's successor to keep the Age of Fire alive.", cat: "others" },
+      { name: "Darkstalker Kaathe", role: "Serpent", desc: "A sinister serpent dwelling in the dark Abyss, working to build the Dark Lord and guide the Chosen Undead to bring the Age of Dark.", cat: "others" },
+      { name: "Gwynevere, Princess of Sunlight", role: "Princess", desc: "The massive, comforting daughter of Gwyn who grants the Lordvessel. She is revealed to be an illusion maintained by Gwyndolin.", cat: "others" },
+      { name: "Dark Sun Gwyndolin", role: "God", desc: "Gwyn's youngest son, raised as a daughter due to his affinity for the moon. Secretly commands the Darkmoon Blades and protects Anor Londo.", cat: "others" },
+      { name: "Rhea of Thorolund", role: "Cleric", desc: "A noble priestess sent on a sacred mission to find the Rite of Kindling in the Catacombs, utterly unaware of the betrayals that await her.", cat: "others" },
+      { name: "Petrus of Thorolund", role: "Cleric", desc: "A treacherous cleric of Thorolund who abandons Rhea in the deep dark, posing as a pious guardian while plotting her demise.", cat: "others" },
+      { name: "Shiva of the East", role: "Merchant", desc: "The second-in-command of the Forest Hunters. An eastern swordsman who trades exceptionally rare and lethal foreign arms.", cat: "others" },
+      { name: "Dusk of Oolacile", role: "Princess", desc: "A survivor of Oolacile, frozen inside a golden crystal golem in Darkroot Basin. Keeps alive the forgotten arts of ancient light sorceries.", cat: "others" },
+      { name: "Marvelous Chester", role: "Merchant", desc: "A dapper merchant pulled from a far-off era by Manus. Resides in Royal Wood, wielding a heavy repeating crossbow.", cat: "others" },
+      { name: "Alvina of the Darkroot Wood", role: "Guardian", desc: "An ancient, highly intelligent cat who leads the Forest Hunters. Warns all travelers to stay away from Artorias' grave.", cat: "others" },
+      { name: "Snuggly the Crow", role: "Trader", desc: "A hidden, unseen nesting bird residing at the asylum who will exchange rare treasures for warm, soft gifts.", cat: "others" }
+    ];
+
+    const locations = [
+      { name: "Northern Undead Asylum", bosses: "Asylum Demon; Stray Demon (revisited)", connections: "Firelink Shrine", desc: "A decaying prison nested on high mountain peaks where the branded Undead are exiled to await madness." },
+      { name: "Firelink Shrine", bosses: "None (Hub Area)", connections: "Undead Burg, Catacombs, New Londo Ruins", desc: "A safe haven built of collapsing stone arches. Serves as the central nexus where survivors rest near the fire." },
+      { name: "Undead Burg", bosses: "Taurus Demon; Capra Demon", connections: "Undead Parish, Darkroot Basin, Depths", desc: "A fortified medieval settlement now filled with mindless soldiers, aggressive hollow hounds, and sudden ambush traps." },
+      { name: "Undead Parish", bosses: "Bell Gargoyles", connections: "Darkroot Garden, Sen's Fortress", desc: "A towering cathedral rising above the Burg. Harbors the first Bell of Awakening and Gwyn's giant blacksmith Andre." },
+      { name: "The Depths", bosses: "Gaping Dragon", connections: "Blighttown", desc: "A foul, labyrinthine sewer network crawling with cursed basilisks, mutant rats, and butcher clans." },
+      { name: "Blighttown", bosses: "None (Area boss is inside Quelaag's Domain)", connections: "Valley of Drakes, Quelaag's Domain, The Great Hollow", desc: "A toxic, dark slum constructed from rickety wooden scaffolding, ending in a massive, poison-filled swamp floor." },
+      { name: "Quelaag's Domain", bosses: "Chaos Witch Quelaag", connections: "Blighttown, Demon Ruins", desc: "A hot, web-choked cavern where Quelaag defends her sick sister from those seeking to extinguish her fire." },
+      { name: "The Great Hollow", bosses: "None (Hidden Area)", connections: "Blighttown, Ash Lake", desc: "A secret, treacherous vertical drop navigated along the inside roots of a colossal ancient Archtree." },
+      { name: "Ash Lake", bosses: "None (Hidden Area)", connections: "The Great Hollow", desc: "A silent, infinite sea of gray water and towering Archtrees. Holds the last Everlasting Dragon and remains of the primordial world." },
+      { name: "Sen's Fortress", bosses: "Iron Golem", connections: "Undead Parish, Anor Londo", desc: "A trap-filled testing ground designed by gods. Chock-full of heavy swinging scythes, pressure plates, and serpent squads." },
+      { name: "Anor Londo", bosses: "Ornstein & Smough; Dark Sun Gwyndolin", connections: "The Duke's Archives, Painted World", desc: "The gorgeous, golden citadel of the old gods. Bathed in illusory light, hiding the dark reality of their abandonment." },
+      { name: "Painted World of Ariamis", bosses: "Crossbreed Priscilla", connections: "Accessible via Anor Londo", desc: "A snowy, frozen asylum sealed inside a gigantic canvas. Built to keep the outcasts and forbidden tools of the gods hidden." },
+      { name: "Darkroot Garden", bosses: "Great Grey Wolf Sif", connections: "Undead Parish, Darkroot Basin", desc: "A sprawling, silent forest enclosing the historical remains of ancient Oolacile, guarded by Sif." },
+      { name: "Darkroot Basin", bosses: "Moonlight Butterfly", connections: "Valley of Drakes", desc: "A steep, misty valley beneath the garden. Guarded by a towering hydra and crystal golems." },
+      { name: "Valley of Drakes", bosses: "None", connections: "Darkroot Basin, Blighttown, New Londo Ruins", desc: "A rocky canyon containing blue lightning drakes and the massive, decaying body of a dead dragon." },
+      { name: "New Londo Ruins", bosses: "The Four Kings", connections: "Firelink Shrine, Valley of Drakes, The Abyss", desc: "A sunken city filled with banshees and ghosts. Flooded long ago by the Sealers to contain the dark Darkwraiths." },
+      { name: "The Abyss", bosses: "The Four Kings", connections: "Accessed via New Londo Ruins", desc: "An absolute void of pure darkness. The birthplace of humanity's deepest corruption, where the Four Kings reside." },
+      { name: "The Duke's Archives", bosses: "Seath the Scaleless (first encounter)", connections: "Crystal Cave", desc: "A crystalline library housing Seath's obsessive research on immortality, containing massive bookshelves and dangerous experiments." },
+      { name: "Crystal Cave", bosses: "Seath the Scaleless", connections: "The Duke's Archives", desc: "A magical cavern formed of giant crystals and invisible walkways, guarded by crystal butterflies." },
+      { name: "The Catacombs", bosses: "Pinwheel", connections: "Firelink Shrine, Tomb of the Giants", desc: "An underground graveyard where skeletons rebuild themselves endlessly under the control of hidden necromancers." },
+      { name: "Tomb of the Giants", bosses: "Gravelord Nito", connections: "The Catacombs", desc: "A pitch-black underworld littered with giant bones, guarded by skeletal giants and Nito, the Lord of Death." },
+      { name: "Demon Ruins", bosses: "Ceaseless Discharge; Demon Firesage; Centipede Demon", connections: "Quelaag's Domain, Lost Izalith", desc: "A volcanic region of magma and collapsing stone temples, overrun by chaotic fire demons." },
+      { name: "Lost Izalith", bosses: "Bed of Chaos", connections: "Demon Ruins", desc: "The ancient city of the Witch of Izalith, completely swallowed by colossal roots, lava pools, and weird mutations." },
+      { name: "Firelink Altar", bosses: "None", connections: "Kingseeker Frampt or Darkstalker Kaathe", desc: "The grand chamber where the Lordvessel must be placed and filled to burn open the gate of Cinder." },
+      { name: "Kiln of the First Flame", bosses: "Gwyn, Lord of Cinder", connections: "Firelink Altar", desc: "The ash-filled tomb where the First Flame originally ignited. Gwyn stands alone, guarding its final embers." },
+      { name: "Oolacile Township (DLC)", bosses: "Knight Artorias (nearby); Manus (Abyss)", connections: "Sanctuary Garden, Chasm of the Abyss", desc: "A highly advanced magical kingdom from ancient times, completely corrupted by the spreading Abyss." },
+      { name: "Chasm of the Abyss (DLC)", bosses: "Manus, Father of the Abyss", connections: "Oolacile Township", desc: "The absolute epicenter of the Abyssal corruption, where Manus' primal humanity was awakened and went wild." }
+    ];
+
+    const bosses = [
+      { name: "Asylum Demon", loc: "Northern Undead Asylum", drops: "Big Pilgrim's Key, Demon's Great Hammer (First Encounter)", cat: "main" },
+      { name: "Stray Demon", loc: "Northern Undead Asylum (return)", drops: "Titanite Slab, Humanity", cat: "main" },
+      { name: "Taurus Demon", loc: "Undead Burg", drops: "Key to the Undead Burg, Humanity, Homeward Bone", cat: "main" },
+      { name: "Bell Gargoyles", loc: "Undead Parish", drops: "Gargoyle Helm, Shield, Tail Axe, Twin Humanities, Key to Depths", cat: "main" },
+      { name: "Capra Demon", loc: "Undead Burg (Lower)", drops: "Key to the Depths, Humanity, Homeward Bone", cat: "main" },
+      { name: "Moonlight Butterfly", loc: "Darkroot Basin", drops: "Soul of the Moonlight Butterfly, Humanity", cat: "main" },
+      { name: "Gaping Dragon", loc: "The Depths", drops: "Key to Blighttown, Humanity, Dragon King Greataxe (Tail cut)", cat: "main" },
+      { name: "Chaos Witch Quelaag", loc: "Quelaag's Domain", drops: "Soul of Quelaag, Humanity, Twin Humanities", cat: "main" },
+      { name: "Great Grey Wolf Sif", loc: "Darkroot Garden", drops: "Covenant of Artorias, Soul of Sif, Homeward Bone", cat: "main" },
+      { name: "Iron Golem", loc: "Sen's Fortress", drops: "Core of an Iron Golem, Humanity", cat: "main" },
+      { name: "Crossbreed Priscilla", loc: "Painted World of Ariamis", drops: "Soul of Priscilla, Twin Humanities, Priscilla's Dagger (Tail cut)", cat: "main" },
+      { name: "Dark Sun Gwyndolin", loc: "Anor Londo", drops: "Soul of Gwyndolin", cat: "main" },
+      { name: "Ornstein & Smough", loc: "Anor Londo", drops: "Soul of Ornstein or Smough, Lordvessel, Leo Ring", cat: "main" },
+      { name: "Pinwheel", loc: "The Catacombs", drops: "Rite of Kindling, Mask of the Father/Mother/Child", cat: "main" },
+      { name: "Gravelord Nito", loc: "Tomb of the Giants", drops: "Soul of Gravelord Nito (Lord Soul), Humanity", cat: "main" },
+      { name: "Seath the Scaleless", loc: "Crystal Cave", drops: "Soul of Seath (Lord Soul), Moonlight Greatsword (Tail cut)", cat: "main" },
+      { name: "The Four Kings", loc: "The Abyss", drops: "Soul of the Four Kings (Lord Soul), Humanity", cat: "main" },
+      { name: "Ceaseless Discharge", loc: "Demon Ruins", drops: "Soul of Ceaseless Discharge, Humanity", cat: "main" },
+      { name: "Demon Firesage", loc: "Demon Ruins", drops: "Demon's Spear, Humanity", cat: "main" },
+      { name: "Centipede Demon", loc: "Demon Ruins", drops: "Orange Charred Ring, Humanity", cat: "main" },
+      { name: "Bed of Chaos", loc: "Lost Izalith", drops: "Soul of the Witch of Izalith (Lord Soul), Humanity", cat: "main" },
+      { name: "Gwyn, Lord of Cinder", loc: "Kiln of the First Flame", drops: "Soul of Gwyn, Lord of Cinder", cat: "main" },
+      { name: "Sanctuary Guardian", loc: "Sanctuary Garden", drops: "Guardian Soul, Guardian Tail (Tail cut)", cat: "dlc" },
+      { name: "Knight Artorias", loc: "Royal Wood", drops: "Soul of Artorias", cat: "dlc" },
+      { name: "Black Dragon Kalameet", loc: "Royal Wood", drops: "Calamity Ring, Obsidian Greatsword (Tail cut)", cat: "dlc" },
+      { name: "Manus, Father of the Abyss", loc: "Chasm of the Abyss", drops: "Soul of Manus, 10 Humanities", cat: "dlc" }
+    ];
+
+    const covenants = [
+      { name: "Warrior of Sunlight", sigil: "M50,15 L55,35 L75,40 L55,45 L50,65 L45,45 L25,40 L45,35 Z", desc: "The co-op covenant of Solaire of Astora [citation:4]. Members harness the power of sunlight and are disciples of Lord Gwyn's Firstborn [citation:4]. The old God of War watches over the Warriors [citation:4]." },
+      { name: "Princess Guard", sigil: "M30,30 L70,30 L65,70 L35,70 Z M20,20 L80,20 L75,30 L25,30 Z", desc: "The covenant of Gwynevere, Princess of Sunlight [citation:4]. Members are sworn to protect the Princess [citation:4]. Joining requires defeating Ornstein & Smough and rescuing Gwynevere [citation:4]." },
+      { name: "Way of White", sigil: "M50,20 C35,20 35,50 50,80 C65,50 65,20 50,20 Z", desc: "Founded by Allfather Lloyd, Lord Gwyn's uncle [citation:4]. This religious covenant views the Darksign as accursed and believes bonfires must be maintained [citation:4]. Clerics and Knights start as members automatically [citation:4]." },
+      { name: "Darkwraith", sigil: "M35,35 L65,35 L65,65 L35,65 Z M25,25 L75,25 L70,75 L30,75 Z", desc: "The most difficult covenant to join. Led by Darkstalker Kaathe [citation:4]. Members serve the Furtive Pygmy's plan to herald the Age of Dark [citation:4]. Kaathe corrupted the knights of New Londo [citation:4]." },
+      { name: "Forest Hunter", sigil: "M50,15 C60,25 65,40 50,85 C35,40 40,25 50,15 Z", desc: "Sworn to defend Darkroot Garden [citation:4]. Led by Alvina, the talking cat [citation:4]. Members protect the grave of Knight Artorias from those who would use the Abyss [citation:4]." },
+      { name: "Path of the Dragon", sigil: "M25,25 L75,25 L50,80 Z", desc: "Worships the dragons of the past [citation:4]. Members seek to transform themselves into dragonkind [citation:4]. Joined by praying to the Stone Dragon in Ash Lake [citation:4]." },
+      { name: "Blade of Darkmoon", sigil: "M50,15 L50,85 M20,50 L80,50", desc: "Led by Dark Sun Gwyndolin, second son of Lord Gwyn [citation:4]. Members act as executioners, hunting those guilty of sin [citation:4]. Closely aligned with Velka, Goddess of Sin [citation:4]." },
+      { name: "Gravelord Servant", sigil: "M50,20 L80,50 L50,80 L20,50 Z", desc: "Servants of Gravelord Nito, the First of the Dead [citation:4]. Members spread death and misery using Eyes of Death [citation:4]. Joined by praying to the Sarcophagus Gravelord in the Catacombs [citation:4]." },
+      { name: "Chaos Servant", sigil: "M50,15 C70,35 70,65 50,85 C30,65 30,35 50,15 Z", desc: "Led by Quelaag's Sister (the Fair Lady) [citation:4]. Members gather Humanity to ease her pain caused by consuming Blight pus from the infected natives [citation:4]. Joined after defeating Quelaag and finding the Fair Lady [citation:4]." }
+    ];
+
+    const gifts = [
+      { name: "Master Key", desc: "Reusable key that can open any door with a basic lock. The best gift in the game — offers unparalleled exploration freedom. The Thief class starts with this regardless." },
+      { name: "Divine Blessing", desc: "Consumable that fully restores HP and clears negative status effects. Rare and extremely valuable." },
+      { name: "Black Firebomb", desc: "Thrown item that creates a powerful blaze. You start with 10. Can be used to defeat the Asylum Demon early." },
+      { name: "Twin Humanities", desc: "Consumable that restores 2 Humanity. Useful for bonfire kindling and online play." },
+      { name: "Pendant", desc: "An item filled with blocked memories. The director's recommended gift. A gag gift with story significance." },
+      { name: "Binoculars", desc: "Used to see distant threats and scenery. A reusable key item found early in the game." },
+      { name: "Tiny Being's Ring", desc: "Actually gives a small boost to max health, not health regeneration as the description claims." },
+      { name: "Old Witch's Ring", desc: "Allows you to talk to the Chaos Servant leader, the Daughter of Chaos. Without it, she only responds '...?'." }
+    ];
+
+
+    /* --------------------------------------------------
+       APP CONTROLLER
+       -------------------------------------------------- */
+    document.addEventListener("DOMContentLoaded", () => {
+      initHeader();
+      initParallax();
+      initTypewriter();
+      initEmberParticles();
+      initCharacters();
+      initLocations();
+      initBosses();
+      initCovenants();
+      initGifts();
+      initScrollReveal();
+    });
+
+    // 1. Header scroll effect and mobile navigation
+    function initHeader() {
+      const header = document.getElementById("main-header");
+      const navMenu = document.getElementById("nav-menu");
+      const toggle = document.querySelector(".nav-toggle");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+
+        // Update progress bar
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (window.scrollY / totalHeight) * 100;
+        document.getElementById("progress-bar").style.width = `${progress}%`;
+      });
+
+      toggle.addEventListener("click", () => {
+        header.classList.toggle("mobile-menu-active");
+        navMenu.classList.toggle("open");
+      });
+
+      navMenu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          header.classList.remove("mobile-menu-active");
+          navMenu.classList.remove("open");
+        });
+      });
+    }
+
+    // 2. Parallax Mouse Tilt for Hero Title
+    function initParallax() {
+      const hero = document.getElementById("home");
+      const parallaxBox = document.querySelector(".parallax-box");
+      
+      hero.addEventListener("mousemove", (e) => {
+        const x = (window.innerWidth / 2 - e.clientX) / 40;
+        const y = (window.innerHeight / 2 - e.clientY) / 40;
+        parallaxBox.style.transform = `translate(${x}px, ${y}px) rotateX(${-y}deg) rotateY(${x}deg)`;
+      });
+
+      hero.addEventListener("mouseleave", () => {
+        parallaxBox.style.transform = "translate(0,0) rotateX(0) rotateY(0)";
+      });
+    }
+
+    // 3. Typewriter Core
+    function initTypewriter() {
+      const quotes = [
+        "But soon the First Flame began to fade...",
+        "The Undead Curse spreads across the land.",
+        "Only you can decide the fate of Lordran.",
+        "Will you link the Fire, or let it die?"
+      ];
+      let quoteIdx = 0;
+      let charIdx = 0;
+      let isDeleting = false;
+      const target = document.getElementById("typewriter");
+
+      function type() {
+        const currentQuote = quotes[quoteIdx];
+        if (!isDeleting && charIdx <= currentQuote.length) {
+          target.textContent = currentQuote.substring(0, charIdx);
+          charIdx++;
+          setTimeout(type, 90);
+        } else if (isDeleting && charIdx >= 0) {
+          target.textContent = currentQuote.substring(0, charIdx);
+          charIdx--;
+          setTimeout(type, 40);
+        } else {
+          isDeleting = !isDeleting;
+          if (!isDeleting) {
+            quoteIdx = (quoteIdx + 1) % quotes.length;
+            setTimeout(type, 600);
+          } else {
+            setTimeout(type, 2400); // Pause after full quote
+          }
+        }
+      }
+      type();
+    }
+
+    // 4. Bonfire Particles Generator
+    function initEmberParticles() {
+      const container = document.querySelector(".bonfire-container");
+      
+      function spawnEmber() {
+        const ember = document.createElement("div");
+        ember.classList.add("ember-particle");
+        
+        const size = Math.random() * 3.5 + 2;
+        const startX = Math.random() * 90 + 155; // Core area positioning
+        
+        ember.style.width = `${size}px`;
+        ember.style.height = `${size}px`;
+        ember.style.left = `${startX}px`;
+        ember.style.bottom = `120px`;
+        
+        const drift = `${Math.random() * 70 - 35}px`;
+        const driftEnd = `${Math.random() * 120 - 60}px`;
+        ember.style.setProperty("--drift", drift);
+        ember.style.setProperty("--drift-end", driftEnd);
+        
+        const duration = Math.random() * 3 + 2.5;
+        ember.style.animation = `riseAndFade ${duration}s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+        
+        container.appendChild(ember);
+        
+        setTimeout(() => {
+          ember.remove();
+        }, duration * 1000);
+      }
+      let emberInterval = null;
+      const hero = document.getElementById("home");
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !emberInterval) {
+            emberInterval = setInterval(spawnEmber, 160);
+          } else if (!entry.isIntersecting && emberInterval) {
+            clearInterval(emberInterval);
+            emberInterval = null;
+          }
+        });
+      });
+      observer.observe(hero);
+    }
+
+    // 5. Populate and Filter Characters
+    function initCharacters() {
+      const container = document.getElementById("character-container");
+      
+      function render(filter = "all") {
+        container.innerHTML = "";
+        characters.forEach(char => {
+          if (filter !== "all" && char.cat !== filter) return;
+          
+          const card = document.createElement("div");
+          card.className = "char-card tilt-box";
+          card.innerHTML = `
+            <div>
+              <span class="char-role">${char.role}</span>
+              <h3 class="char-name">${char.name}</h3>
+              <p class="char-desc">${char.desc}</p>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+        apply3DHover();
+      }
+
+      const tabs = document.querySelectorAll("#characters .tab-btn");
+      tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+          tabs.forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          render(tab.getAttribute("data-filter"));
+        });
+      });
+
+      render();
+    }
+
+    // 6. Interactive Locations Split Panels
+    function initLocations() {
+      const listPane = document.getElementById("location-list");
+      const detailPane = document.getElementById("location-detail");
+
+      locations.forEach((loc, idx) => {
+        const btn = document.createElement("button");
+        btn.className = `location-btn ${idx === 0 ? 'active' : ''}`;
+        btn.textContent = `${idx + 1}. ${loc.name}`;
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".location-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          showDetails(loc);
+        });
+        listPane.appendChild(btn);
+      });
+
+      function showDetails(loc) {
+        detailPane.innerHTML = `
+          <div class="detail-container">
+            <h3 class="detail-name">${loc.name}</h3>
+            <p style="font-size: 1.15rem; font-style: italic; color: #dfd4c6; line-height: 1.6;">"${loc.desc}"</p>
+            
+            <div class="detail-meta">
+              <div class="meta-box">
+                <div class="meta-title">Area Bosses</div>
+                <div class="meta-content" style="color: var(--gold);">${loc.bosses}</div>
+              </div>
+              <div class="meta-box">
+                <div class="meta-title">Map Connections</div>
+                <div class="meta-content">${loc.connections}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      showDetails(locations[0]);
+    }
+
+    // 7. Boss bestiary live searching & sorting
+    function initBosses() {
+      const container = document.getElementById("boss-container");
+      const searchInput = document.getElementById("boss-search");
+      let activeFilter = "all";
+      let searchVal = "";
+
+      function render() {
+        container.innerHTML = "";
+        bosses.forEach(boss => {
+          const matchFilter = activeFilter === "all" || boss.cat === activeFilter;
+          const matchSearch = boss.name.toLowerCase().includes(searchVal) || boss.loc.toLowerCase().includes(searchVal) || boss.drops.toLowerCase().includes(searchVal);
+          
+          if (!matchFilter || !matchSearch) return;
+
+          const card = document.createElement("div");
+          card.className = "boss-card tilt-box";
+          card.innerHTML = `
+            <div class="boss-header">
+              <h3 class="boss-name">${boss.name}</h3>
+              <span class="boss-badge">${boss.cat === "dlc" ? "Artorias of Abyss DLC" : "Main Game"}</span>
+            </div>
+            <div>
+              <div class="boss-row">
+                <div class="boss-label">Arena Location</div>
+                <div class="boss-val">${boss.loc}</div>
+              </div>
+              <div class="boss-row" style="margin-top: 1rem;">
+                <div class="boss-label">Souls & Relic Drops</div>
+                <div class="boss-val" style="color: var(--gold); font-style: italic;">${boss.drops}</div>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+        apply3DHover();
+      }
+
+      searchInput.addEventListener("input", (e) => {
+        searchVal = e.target.value.toLowerCase();
+        render();
+      });
+
+      const tabs = document.querySelectorAll("#bosses .tab-btn");
+      tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+          tabs.forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          activeFilter = tab.getAttribute("data-boss-filter");
+          render();
+        });
+      });
+
+      render();
+    }
+
+    // 8. Covenants Generator
+    function initCovenants() {
+      const container = document.getElementById("covenants-container");
+      covenants.forEach(cov => {
+        const card = document.createElement("div");
+        card.className = "covenant-card tilt-box";
+        card.innerHTML = `
+          <svg class="covenant-sigil" viewBox="0 0 100 100">
+            <path d="${cov.sigil}" fill="none" stroke="var(--gold)" stroke-width="2"/>
+          </svg>
+          <h3>${cov.name}</h3>
+          <p>${cov.desc}</p>
+        `;
+        container.appendChild(card);
+      });
+      apply3DHover();
+    }
+
+    // 9. Gifts Setup
+    function initGifts() {
+      const container = document.getElementById("gifts-container");
+      gifts.forEach(gift => {
+        const slot = document.createElement("div");
+         slot.className = "gift-slot tilt-box";
+        slot.innerHTML = `
+          <div class="gift-icon">
+            <svg viewBox="0 0 100 100" fill="none" stroke="var(--gold)" stroke-width="1.8">
+              <circle cx="50" cy="50" r="24" stroke-opacity="0.3"/>
+              <path d="M50,15 L50,85 M15,50 L85,50" />
+              <polygon points="50,26 62,50 38,50" fill="var(--gold-glow)"/>
+            </svg>
+          </div>
+          <h3 class="gift-title">${gift.name}</h3>
+          <p class="gift-desc">${gift.desc}</p>
+        `;
+        container.appendChild(slot);
+      });
+      apply3DHover();
+    }
+
+    // 10. Unified 3D Card Hover Perspective Engine
+    function apply3DHover() {
+      if (apply3DHover._bound) return;
+      apply3DHover._bound = true;
+      document.addEventListener("mousemove", (e) => {
+        const card = e.target.closest(".tilt-box");
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const midX = rect.width / 2;
+        const midY = rect.height / 2;
+
+        const rotateX = -(midY - y) / 10;
+        const rotateY = (midX - x) / 10;
+
+        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+      });
+
+      document.addEventListener("mouseleave", (e) => {
+        const card = e.target.closest(".tilt-box");
+        if (card) {
+          card.style.transform = "perspective(800px) rotateX(0) rotateY(0) translateY(0)";
+        }
+      }, true);
+    }
+
+    // 11. Intersection Observer for Gothic Animation Reveals
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
+      });
+
+      document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+    }
+  </script>
+</body>
+</html>
